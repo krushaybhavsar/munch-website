@@ -1,0 +1,345 @@
+.waitlist-screen {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  padding: 0 10vw 0 10vw;
+  background: var(--primaryYellow);
+  overflow-x: hidden;
+}
+
+.waitlist__left-content,
+.waitlist__right-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  max-width: 50vw;
+  padding: 0 10px;
+}
+
+.waitlist__right-content {
+  align-items: center;
+  justify-content: center;
+}
+
+.waitlist__logo-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.waitlist__logo {
+  width: 58px;
+  height: 58px;
+  margin-right: 4px;
+  margin-bottom: -2px;
+  margin-left: -8px;
+}
+
+.waitlist__logo-text {
+  font-family: 'CircularStd', sans-serif;
+  font-weight: 900;
+  font-size: 3rem;
+  letter-spacing: -0.05rem;
+  color: var(--blackText);
+}
+
+.waitlist-title {
+  font-family: 'CircularStd', sans-serif;
+  font-weight: 700;
+  font-size: 2.75rem;
+  color: var(--blackText);
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.waitlist-description {
+  font-weight: 400;
+}
+
+.waitlist__right-content__form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.waitlist-screen form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.waitlist__form-title {
+  font-family: 'CircularStd', sans-serif;
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: var(--blackText);
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.waitlist__email-input {
+  padding: 10px 20px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  background: var(--whiteBackground);
+  color: var(--blackText);
+  font-size: 18px;
+  transition: all 0.2s ease;
+  margin-right: 16px;
+  width: 250px;
+}
+
+.waitlist__submit-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background: var(--blackText);
+  color: var(--whiteBackground);
+  font-family: 'CircularStd', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.waitlist__submit-btn:hover {
+  transform: scale(1.05);
+}
+
+.waitlist__right-img {
+  width: 85%;
+  padding: 0 20px;
+}
+
+.waitlist__learn-more-desc {
+  color: var(--blackText);
+  white-space: nowrap;
+  /* text-decoration: none; */
+  /* font-style: italic; */
+}
+
+.waitlist__learn-more__arrow {
+  width: 18px;
+  height: 18px;
+  margin-left: 4px;
+  align-self: center;
+  justify-self: center;
+  text-align: center;
+  vertical-align: middle;
+  margin-top: -2px;
+  transition: all 0.15s ease-in-out;
+  opacity: 0.9;
+}
+
+.waitlist__learn-more-desc:hover>.waitlist__learn-more__arrow {
+  margin-left: 8px;
+}
+
+.learn-more-bottom-container {
+  position: absolute;
+  bottom: 18px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.waitlist__logo-container.top {
+  display: none;
+  margin-top: 20px;
+}
+
+@media only screen and (max-width: 1180px) {
+  .waitlist-screen {
+    padding: 0 5vw 0 10vw;
+  }
+}
+
+@media only screen and (max-width: 1120px) {
+  .waitlist__logo-container {
+    margin-bottom: 16px;
+  }
+
+  .waitlist__logo {
+    width: 48px;
+    height: 48px;
+    margin-right: 4px;
+    margin-bottom: -2px;
+    margin-left: -8px;
+  }
+
+  .waitlist__logo-text {
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+
+  .waitlist-title {
+    font-size: 2.5rem;
+  }
+
+  .waitlist__right-img {
+    width: 100%;
+  }
+
+  .waitlist-description {
+    font-size: 1.1rem;
+  }
+
+  .waitlist__form-title {
+    font-size: 1.25rem;
+  }
+
+  .waitlist__email-input {
+    width: 200px;
+    font-size: 16px;
+  }
+
+  .waitlist__submit-btn {
+    font-size: 16px;
+  }
+
+}
+
+@media screen and (max-width: 882px) {
+  .waitlist-screen {
+    justify-content: flex-start;
+    flex-direction: column-reverse;
+    padding: 0 16vw;
+  }
+
+  .waitlist__left-content,
+  .waitlist__right-content {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+
+  .waitlist__left-content {
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 60px;
+  }
+
+  .waitlist__logo-container.top {
+    display: flex;
+  }
+
+  .waitlist__logo-container.left {
+    display: none;
+  }
+
+  .waitlist__logo-container {
+    margin-bottom: 16px;
+  }
+
+  .waitlist__logo {
+    width: 48px;
+    height: 48px;
+    margin-right: 4px;
+    margin-bottom: -2px;
+    margin-left: -8px;
+  }
+
+  .waitlist__logo-text {
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+
+  .waitlist-title {
+    font-size: 2.5rem;
+    text-align: center;
+  }
+
+  .waitlist__right-img {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 10px;
+  }
+
+  .waitlist-description {
+    font-size: 1.1rem;
+    text-align: center;
+  }
+
+  .waitlist__right-content__form {
+    align-items: center;
+    width: 100%;
+  }
+
+  .waitlist__form-title {
+    font-size: 1.25rem;
+    text-align: center;
+  }
+
+  .waitlist__email-input {
+    width: 200px;
+    font-size: 16px;
+  }
+
+  .waitlist__submit-btn {
+    font-size: 16px;
+  }
+
+  .learn-more-bottom-container {
+    position: relative;
+    bottom: 0;
+    margin-top: 20px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .waitlist-screen {
+    padding: 0 10vw;
+  }
+
+  .waitlist__right-img {
+    width: 100%;
+    max-width: 200px;
+    margin-bottom: 10px;
+  }
+
+  .waitlist-title {
+    font-size: 2rem;
+  }
+
+  .waitlist-description {
+    font-size: 1rem;
+    line-height: 1.35rem;
+  }
+
+  .waitlist__right-content__form>form {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .waitlist__email-input {
+    margin: 0;
+    width: 100%;
+    margin-bottom: 10px;
+    transform: translateX(-20px);
+    padding: 14px 20px;
+  }
+
+  .waitlist__submit-btn {
+    margin: 0;
+    width: calc(100% + 40px);
+    transform: translateX(-20px);
+    padding: 14px 20px;
+  }
+}
