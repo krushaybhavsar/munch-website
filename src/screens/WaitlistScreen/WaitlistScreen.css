@@ -162,6 +162,10 @@
   margin-top: 20px;
 }
 
+.waitlist__right-content.top {
+  display: none;
+}
+
 @media only screen and (max-width: 1180px) {
   .waitlist-screen {
     padding: 0 5vw 0 10vw;
@@ -216,8 +220,9 @@
 @media screen and (max-width: 882px) {
   .waitlist-screen {
     justify-content: flex-start;
-    flex-direction: column-reverse;
-    padding: 0 16vw;
+    flex-direction: column;
+    padding: 0 15vw;
+    max-height: 100vh;
   }
 
   .waitlist__left-content,
@@ -230,6 +235,15 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 60px;
+  }
+
+  .waitlist__right-content.top {
+    display: flex;
+    width: 100%;
+  }
+
+  .waitlist__right-content.right {
+    display: none;
   }
 
   .waitlist__logo-container.top {
@@ -301,7 +315,16 @@
 
 @media screen and (max-width: 650px) {
   .waitlist-screen {
-    padding: 0 10vw;
+    padding: 0 20px;
+    justify-content: flex-start;
+  }
+
+  .waitlist__right-content,
+  .waitlist__left-content {
+    height: fit-content !important;
+    flex: 0 1 !important;
+    /* margin-top: 12px; */
+    /* margin-bottom: -20px; */
   }
 
   .waitlist__right-img {
@@ -330,16 +353,14 @@
 
   .waitlist__email-input {
     margin: 0;
-    width: 100%;
+    width: calc(100% - 40px);
     margin-bottom: 10px;
-    transform: translateX(-20px);
     padding: 14px 20px;
   }
 
   .waitlist__submit-btn {
     margin: 0;
-    width: calc(100% + 40px);
-    transform: translateX(-20px);
+    width: calc(100%);
     padding: 14px 20px;
   }
 }

@@ -19,17 +19,33 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
     );
   };
 
+  const getRightContent = (type: string) => {
+    return (
+      <div className={"waitlist__right-content " + type}>
+        <img
+          className={"waitlist__right-img " + type}
+          src={require("../../assets/eating-donuts.png")}
+        />
+      </div>
+    );
+  };
+
   return (
     <div className="waitlist-screen">
+      {getLogoContainer("top")}
+      {getRightContent("top")}
       <div className="waitlist__left-content">
         {getLogoContainer("left")}
-        <h2 className="waitlist-title">Enjoy campus food like never before.</h2>
+        <h2 className="waitlist-title">
+          Experience campus food like never before.
+        </h2>
         <h3 className="waitlist-description">
           Tired of dining hall food? Never know what to cook? Don't have to time
           (or skills) to prep a homemade meal yourself? <b>Neither do we.</b>
           <br />
-          We get it.
-          {width < 650 ? " " : " We're hungry and lazy college students too. "}
+          {width < 650
+            ? " "
+            : "We get it. We're hungry and lazy college students too. "}
           That's why we created munch.{" "}
           <a href="#about-munch" className="waitlist__learn-more-desc">
             What's munch?
@@ -53,13 +69,7 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
           </form>
         </div>
       </div>
-      <div className="waitlist__right-content">
-        <img
-          className="waitlist__right-img"
-          src={require("../../assets/eating-donuts.png")}
-        />
-      </div>
-      {getLogoContainer("top")}
+      {getRightContent("right")}
       <div className="learn-more-bottom-container"></div>
     </div>
   );
