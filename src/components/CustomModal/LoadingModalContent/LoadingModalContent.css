@@ -1,0 +1,40 @@
+.loading-modal-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.loading-modal-title {
+  font-family: 'CircularStd', sans-serif !important;
+  font-size: 1.75rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 1rem !important;
+}
+
+.loading-modal-logo {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 1rem;
+  animation-name: logo-spin;
+  animation-duration: 1000ms;
+  animation-iteration-count: infinite;
+  /* animation-timing-function: ea; */
+}
+
+.loading-modal-description {
+  font-size: 1.25rem !important;
+  font-weight: 400 !important;
+  margin-bottom: 0.5rem !important;
+}
+
+@keyframes logo-spin {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  100% {
+    transform: rotate(360deg) scale(0.9);
+  }
+}

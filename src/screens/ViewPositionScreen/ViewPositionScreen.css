@@ -1,0 +1,97 @@
+.view-position-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 0 10vw 0 10vw;
+  background: var(--primaryYellow);
+  overflow-y: auto;
+  overflow-x: hidden;
+  filter: blur(0);
+  transition: all 0.4s ease;
+}
+
+.vps-position-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.vps-position-container__title {
+  font-size: 2rem;
+  font-weight: 400;
+  margin-bottom: 24px;
+  /* font-family: 'CircularStd', sans-serif !important; */
+}
+
+.vps-position-container__position {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  background: var(--whiteBackground);
+  border-radius: 8px;
+}
+
+.vps-position-container__position-text {
+  font-size: 5rem !important;
+  font-weight: 700 !important;
+  font-family: 'CircularStd', sans-serif !important;
+  margin: 18px;
+  width: 100%;
+  text-align: center;
+}
+
+.vps-referral-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background: var(--blackText);
+  border-radius: 36px 36px 0 0;
+}
+
+.vps-referral-container__title {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin: 24px 0;
+  color: var(--whiteBackground);
+  text-align: center;
+}
+
+.vps-referral-container__referral {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.vps-referral-container__referral-text-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: fit-content;
+  width: 100%;
+  background: var(--whiteBackground);
+  margin: 0 24px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.vps-referral-container__referral-text {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--blackText);
+  margin: 12px 26px;
+  white-space: nowrap;
+}
