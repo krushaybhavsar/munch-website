@@ -46,6 +46,7 @@ function App() {
             userDataDoc === "" ? <Navigate to="/" /> : <ViewPositionScreen />
           }
         />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
   );
