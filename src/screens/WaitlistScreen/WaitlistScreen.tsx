@@ -45,7 +45,7 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
           localStorage.setItem("userDataDoc", res.uid);
           setLoading(false);
           console.log("Successfully set userDataDoc in localStorage");
-          // window.location.reload();
+          window.location.reload();
         }
       });
     }
