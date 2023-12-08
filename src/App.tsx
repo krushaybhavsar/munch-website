@@ -5,10 +5,14 @@ import { signInAnonymously } from "firebase/auth";
 import { auth } from "./firebaseConfig";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import ViewPositionScreen from "./screens/ViewPositionScreen/ViewPositionScreen";
+import { ToastInfo } from "./types";
+import { CustomToast } from "./components/CustomToast/CustomToast";
 
 function App() {
   const [userDataDoc, setUserDataDoc] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const [toastMessage, setToastMessage] = useState<ToastInfo>();
+  const [toastVisible, setToastVisible] = useState(false);
 
   useEffect(() => {
     signInAnonymously(auth)
@@ -29,12 +33,20 @@ function App() {
 
   return (
     <BrowserRouter>
+      <CustomToast
+        visible={toastVisible}
+        message={toastMessage}
+        setVisible={setToastVisible}
+      />
       <Routes>
         <Route
           path="/"
           element={
             userDataDoc === "" ? (
-              <WaitlistScreen />
+              <WaitlistScreen
+                setToastMessage={setToastMessage}
+                setToastVisible={setToastVisible}
+              />
             ) : (
               <Navigate to="/position" />
             )
@@ -43,7 +55,14 @@ function App() {
         <Route
           path="/position"
           element={
-            userDataDoc === "" ? <Navigate to="/" /> : <ViewPositionScreen />
+            userDataDoc === "" ? (
+              <Navigate to="/" />
+            ) : (
+              <ViewPositionScreen
+                setToastMessage={setToastMessage}
+                setToastVisible={setToastVisible}
+              />
+            )
           }
         />
         <Route path="*" element={<Navigate to="/" />} />

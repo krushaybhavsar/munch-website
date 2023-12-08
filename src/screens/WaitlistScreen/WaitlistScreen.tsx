@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import "./WaitlistScreen.css";
 import useWindowDimensions from "../../utils/useWindowDimensions";
 import { addEmailToQueue } from "../../utils/firebaseUtils";
-import { CollegeEmailSuffixes } from "../../types";
+import { CollegeEmailSuffixes, ToastInfo } from "../../types";
 import CustomModal from "../../components/CustomModal/CustomModal";
 import LoadingModalContent from "../../components/CustomModal/LoadingModalContent/LoadingModalContent";
 
-type WaitlistScreenProps = {};
+type WaitlistScreenProps = {
+  setToastMessage: React.Dispatch<React.SetStateAction<ToastInfo>>;
+  setToastVisible: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 const WaitlistScreen = (props: WaitlistScreenProps) => {
   const { height, width } = useWindowDimensions();
@@ -14,10 +17,15 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const isValidForm = (): boolean => {
-    if (email.trim() === "") {
-      return false;
-    }
-    if (!email.endsWith(CollegeEmailSuffixes.GeorgiaTech)) {
+    if (
+      email.trim() === "" ||
+      !email.endsWith(CollegeEmailSuffixes.GeorgiaTech)
+    ) {
+      props.setToastMessage({
+        message: "Please enter a valid Georgia Tech email address!",
+        type: "error",
+      });
+      props.setToastVisible(true);
       return false;
     }
     return true;
@@ -89,7 +97,7 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
           </h2>
           <h3 className="waitlist-description">
             Tired of dining hall food? Never know what to cook? Don't have to
-            time (or skills) to prep a homemade meal yourself?{" "}
+            time or skills to prep a homemade meal yourself?{" "}
             <b>Neither do we.</b>
             <br />
             {width < 650
@@ -109,7 +117,7 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
             <form>
               <input
                 type="email"
-                placeholder="Email"
+                placeholder="Georgia Tech Email"
                 className="waitlist__email-input"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}

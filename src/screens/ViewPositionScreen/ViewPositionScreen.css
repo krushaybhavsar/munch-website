@@ -4,7 +4,6 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  padding: 0 10vw 0 10vw;
   background: var(--primaryYellow);
   overflow-y: auto;
   overflow-x: hidden;
@@ -12,38 +11,71 @@
   transition: all 0.4s ease;
 }
 
-.vps-position-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.vps-header-image {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  opacity: 0.75;
 }
 
-.vps-position-container__title {
-  font-size: 2rem;
-  font-weight: 400;
-  margin-bottom: 24px;
-  /* font-family: 'CircularStd', sans-serif !important; */
+.vps_waitlist__logo-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  position: absolute;
+  top: 28px;
 }
 
-.vps-position-container__position {
+.vps_waitlist__logo {
+  width: 58px;
+  height: 58px;
+  margin-right: 4px;
+  margin-bottom: -2px;
+  margin-left: -8px;
+}
+
+.vps_waitlist__logo-text {
+  font-family: 'CircularStd', sans-serif;
+  font-weight: 900;
+  font-size: 3rem;
+  letter-spacing: -0.05rem;
+  color: var(--blackText);
+}
+
+.vps-position-elements-container__image {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 0;
+  transform: translateY(-50%);
+}
+
+.vps-position-elements-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 200px;
   background: var(--whiteBackground);
-  border-radius: 8px;
+  border-radius: 16px;
+  padding: 32px 42px;
+  max-width: 60vw;
+  position: relative;
+  box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.1);
+  margin-top: 32px;
 }
 
-.vps-position-container__position-text {
-  font-size: 5rem !important;
-  font-weight: 700 !important;
+.vps-position-thanks-title {
+  font-size: 28px !important;
+  font-weight: normal !important;
   font-family: 'CircularStd', sans-serif !important;
-  margin: 18px;
+  margin-bottom: 32px;
   width: 100%;
-  text-align: center;
+  text-align: flex-start;
 }
 
 .vps-referral-container {
@@ -52,27 +84,27 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  position: absolute;
-  bottom: 0;
-  background: var(--blackText);
-  border-radius: 36px 36px 0 0;
+  border-radius: 16px;
 }
 
 .vps-referral-container__title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 400;
-  margin: 24px 0;
-  color: var(--whiteBackground);
-  text-align: center;
+  margin-bottom: 18px;
+  color: var(--blackText);
+  text-align: flex-start;
+  width: 100%;
 }
 
 .vps-referral-container__referral {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
+  position: relative;
+  /* border: 2px solid var(--lightGrey); */
 }
 
 .vps-referral-container__referral-text-container {
@@ -80,18 +112,166 @@
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  max-width: fit-content;
-  width: 100%;
-  background: var(--whiteBackground);
-  margin: 0 24px;
+  max-width: 500px;
+  min-width: 100px;
+  border: 2px solid var(--lightGrey);
   border-radius: 8px;
+  width: 100%;
+  height: 52px;
+  margin-right: 8px;
   overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .vps-referral-container__referral-text {
-  font-size: 1.5rem;
+  font-size: 20px;
   font-weight: 400;
   color: var(--blackText);
-  margin: 12px 26px;
+  margin: 11px 18px 11px 18px;
   white-space: nowrap;
+}
+
+.vps-referral-container__referral-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background: var(--blackText);
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  height: 54px;
+  width: 54px;
+  min-width: 54px;
+  /* aspect-ratio: 1; */
+}
+
+.vps-referral-container__referral-button:hover {
+  transform: scale(1.05);
+}
+
+.vps-referral-container__referral-button-icon {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1);
+}
+
+.vps-instant-share-button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  margin-bottom: 32px;
+  overflow-x: auto;
+  /* flex-wrap: wrap; */
+}
+
+.vps-instant-share-element {
+  cursor: pointer;
+  margin: 0 10px;
+}
+
+.vps-status-elements-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+}
+
+.vps-position-container,
+.vps-referral-status-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.vps-referral-status-container {
+  margin-left: 32px;
+}
+
+.vps-position-container__title {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 8px;
+  font-family: 'CircularStd', sans-serif !important;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.vps-position-container__position {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: var(--whiteBackground);
+}
+
+.vps-position-container__position-text {
+  font-size: 5rem !important;
+  font-weight: 700 !important;
+  font-family: 'CircularStd', sans-serif !important;
+  margin-bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+@media screen and (max-width:700px) {
+
+  .vps-position-thanks-title {
+    font-size: 24px !important;
+    margin-bottom: 18px;
+    text-align: center;
+  }
+
+  .vps-referral-container__title {
+    font-size: 1.125rem;
+    text-align: center;
+  }
+
+  .vps-position-elements-container {
+    padding: 28px 28px;
+    max-width: 75vw;
+  }
+
+  .vps-referral-container__referral-text-container {
+    height: 46px;
+  }
+
+  .vps-referral-container__referral-text {
+    font-size: 16px;
+    margin: 8px 11px 8px 11px;
+  }
+
+  .vps-referral-container__referral-button {
+    height: 48px;
+    width: 48px;
+    min-width: 48px;
+  }
+
+  .vps-referral-container__referral-button-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .vps-instant-share-button-container {
+    justify-content: flex-start;
+  }
+
+  .vps-position-container__title {
+    font-size: 1rem;
+    font-weight: normal;
+    margin-bottom: 8px;
+    font-family: 'CircularStd', sans-serif !important;
+  }
+
+  .vps-position-container__position-text {
+    font-size: 3.5rem !important;
+  }
 }

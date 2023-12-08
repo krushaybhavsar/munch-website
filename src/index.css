@@ -17,6 +17,7 @@ code {
 
 html {
   --primaryYellow: #f9d423;
+  --lighterYellow: #FDF2BD;
   --cookieBrown: #b28a62;
   --whiteBackground: #fafafa;
   --blackText: #000000;
@@ -24,6 +25,24 @@ html {
   --darkerGrey: #6b6b6b;
   --errorRed: #ff403b;
   --successGreen: #4bb543;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(107, 107, 107, 0.25);
+  border-radius: 500px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(107, 107, 107, 0.5);
 }
 
 @font-face {
