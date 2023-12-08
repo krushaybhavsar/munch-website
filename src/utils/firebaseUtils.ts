@@ -25,11 +25,11 @@ export const addEmailToQueue = async (
         queueArray: [...queueArray, docId],
       }).catch((error) => {
         console.log("Error adding email to queue: " + error);
-        return;
+        return { res: false, uid: "" };
       });
-      await updateQueueIndexProp(docId, queueArray.length).then(() => {
-        console.log("Updated queue index");
-      });
+      // await updateQueueIndexProp(docId, queueArray.length).then(() => {
+      //   console.log("Updated queue index");
+      // });
     }
     return { res: true, uid: docId };
   } else {
@@ -58,15 +58,15 @@ export const addEmailToUserData = async (email: string): Promise<string> => {
   }
 };
 
-export const updateQueueIndexProp = async (
-  docID: string,
-  newQueueIndex: number
-) => {
-  const docRef = doc(db, "waitlistData", "queue", "userData", docID);
-  await updateDoc(docRef, {
-    queueIndex: newQueueIndex,
-  });
-};
+// export const updateQueueIndexProp = async (
+//   docID: string,
+//   newQueueIndex: number
+// ) => {
+//   const docRef = doc(db, "waitlistData", "queue", "userData", docID);
+//   await updateDoc(docRef, {
+//     queueIndex: newQueueIndex,
+//   });
+// };
 
 export const getQueue = async (): Promise<string[]> => {
   const docRef = doc(db, "waitlistData", "queue");
@@ -91,19 +91,68 @@ export const checkIfEmailExists = async (
   };
 };
 
-export const getPositionInQueue = async (
+export const getIndexInQueue = async (
   userDataDocID: string
 ): Promise<number> => {
-  const docRef = doc(db, "waitlistData", "queue", "userData", userDataDocID);
+  const docRef = doc(db, "waitlistData", "queue");
   const docSnap = await getDoc(docRef);
-  if (
-    docSnap.exists() &&
-    docSnap.data().queueIndex !== undefined &&
-    docSnap.data().queueIndex !== null
-  ) {
-    return docSnap.data().queueIndex + 1;
+  if (docSnap.exists()) {
+    const queueArray = docSnap.data().queueArray;
+    return queueArray.indexOf(userDataDocID);
   } else {
     console.log("No such document: " + docRef.path);
     return -1;
   }
+};
+
+export const getReferralNum = async (uid: string): Promise<number> => {
+  const docRef = doc(db, "waitlistData", "queue", "userData", uid);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists() && docSnap.data().referrals !== undefined) {
+    return docSnap.data().referrals.length;
+  } else {
+    console.log("No such document: " + docRef.path);
+    return -1;
+  }
+};
+
+export const checkIfValidUID = async (uid: string): Promise<boolean> => {
+  const docRef = doc(db, "waitlistData", "queue", "userData", uid);
+  const docSnap = await getDoc(docRef);
+  return docSnap.exists();
+};
+
+export const addUserReferral = async (referralUID: string, newUID: string) => {
+  const docRef = doc(db, "waitlistData", "queue", "userData", referralUID);
+  await updateDoc(docRef, {
+    referrals: arrayUnion(newUID),
+  }).then(() => {
+    updateUserPositionByNum(referralUID, 1).then(() => {
+      console.log("Moved user up in queue by 1");
+    });
+  });
+};
+
+export const updateUserPositionByNum = async (
+  uid: string,
+  spotsToMoveUp: number
+) => {
+  const oldQueueIndex = await getIndexInQueue(uid);
+  let newQueueIndex = oldQueueIndex - spotsToMoveUp;
+  if (newQueueIndex < 0) {
+    newQueueIndex = 0;
+  }
+  const qArray = await getQueue();
+  qArray.splice(oldQueueIndex, 1);
+  qArray.splice(newQueueIndex, 0, uid);
+  await setDoc(doc(db, "waitlistData", "queue"), {
+    queueArray: qArray,
+  })
+    .then(() => {
+      console.log("Updated queue array");
+    })
+    .catch((error) => {
+      console.log("Error adding email to queue: " + error);
+      return;
+    });
 };

@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./WaitlistScreen.css";
 import useWindowDimensions from "../../utils/useWindowDimensions";
-import { addEmailToQueue } from "../../utils/firebaseUtils";
+import {
+  addEmailToQueue,
+  addUserReferral,
+  checkIfValidUID,
+} from "../../utils/firebaseUtils";
 import { CollegeEmailSuffixes, ToastInfo } from "../../types";
 import CustomModal from "../../components/CustomModal/CustomModal";
 import LoadingModalContent from "../../components/CustomModal/LoadingModalContent/LoadingModalContent";
@@ -15,6 +19,38 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
   const { height, width } = useWindowDimensions();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [referralCode, setReferralCode] = useState<string>("");
+  const [loadingDescription, setLoadingDescription] = useState<string>(
+    "Adding you to the waitlist..."
+  );
+
+  const handleError = (message?: any, userMessage?: string) => {
+    console.log(message ? message : "Something went wrong");
+    setLoading(false);
+    props.setToastMessage({
+      message: userMessage ? userMessage : "Something went wrong!",
+      type: "error",
+    });
+    props.setToastVisible(true);
+  };
+
+  // Example URL: http://localhost:3000?ref=7sZX0TupBjMriKukIUk7
+  const handleReferralCode = async (): Promise<{
+    isValid: boolean;
+    ref: string;
+  }> => {
+    if (window.location.href.includes("?ref=")) {
+      setLoadingDescription("Validating referral code...");
+      const urlParams = new URLSearchParams(window.location.search);
+      const referralCode = urlParams.get("ref");
+      if (referralCode) {
+        setReferralCode(referralCode);
+        const res = await checkIfValidUID(referralCode);
+        return { isValid: res, ref: referralCode };
+      }
+    }
+    return { isValid: false, ref: "" };
+  };
 
   const isValidForm = (): boolean => {
     if (
@@ -31,31 +67,61 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
     return true;
   };
 
-  const handleJoinWaitlist = (
+  const handleJoinWaitlist = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    e.preventDefault();
-    if (isValidForm()) {
-      console.log("Valid form");
-      setLoading(true);
-      addEmailToQueue(email).then((res) => {
-        if (res.res) {
-          console.log("Successfully added email to queue");
-        } else {
-          console.log("Failed to add email to queue");
-        }
-        if (
-          res.uid &&
-          res.uid !== null &&
-          res.uid !== undefined &&
-          res.uid !== ""
-        ) {
-          localStorage.setItem("userDataDoc", res.uid);
-          setLoading(false);
-          console.log("Successfully set userDataDoc in localStorage");
-          window.location.reload();
-        }
-      });
+    try {
+      e.preventDefault();
+      if (isValidForm()) {
+        console.log("Valid form");
+        setLoading(true);
+        const handleRefRes = await handleReferralCode();
+        console.log(handleRefRes);
+        await addEmailToQueue(email)
+          .then(async (res) => {
+            if (res.res) {
+              console.log("Successfully added a new user to the queue");
+              if (handleRefRes.isValid && handleRefRes.ref !== "") {
+                if (res.uid == handleRefRes.ref) {
+                  handleError(
+                    "Users cannot refer themselves",
+                    "You can't refer yourself!"
+                  );
+                } else {
+                  console.log("Valid referral code");
+                  props.setToastMessage({
+                    message: "Valid referral code!",
+                    type: "success",
+                  });
+                  props.setToastVisible(true);
+                  await addUserReferral(handleRefRes.ref, res.uid).catch(
+                    (err) => {
+                      handleError(err, "Failed to add referral code!");
+                    }
+                  );
+                }
+              }
+            } else {
+              console.log("Did not add a new user to the queue");
+            }
+            if (
+              res.uid &&
+              res.uid !== null &&
+              res.uid !== undefined &&
+              res.uid !== ""
+            ) {
+              localStorage.setItem("userDataDoc", res.uid);
+              console.log("Successfully set userDataDoc in localStorage");
+              window.location.reload();
+              // setLoading(false);
+            }
+          })
+          .catch((err) => {
+            handleError(err);
+          });
+      }
+    } catch (err) {
+      handleError(err, "Failed to add email to waitlist!");
     }
   };
 
@@ -139,7 +205,7 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
         modalContent={
           <LoadingModalContent
             titleMessage={"Hang Tight!"}
-            description={"Adding you to the list..."}
+            description={loadingDescription}
           />
         }
         setShow={setLoading}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./ViewPositionScreen.css";
-import { getPositionInQueue } from "../../utils/firebaseUtils";
+import { getIndexInQueue, getReferralNum } from "../../utils/firebaseUtils";
 import { ToastInfo } from "../../types";
 import CustomModal from "../../components/CustomModal/CustomModal";
 import LoadingModalContent from "../../components/CustomModal/LoadingModalContent/LoadingModalContent";
@@ -39,24 +39,49 @@ const ViewPositionScreen = (props: ViewPositionScreenProps) => {
   const shareDescription =
     "Tired of dining hall food? Never know what to cook? Don't have to time to prep a meal yourself?\nMunch is a social cooking and homemade meal delivery app that connects you with other students on campus!\n\nJoin the waitlist now to get early access!";
 
+  const handleError = (message?: any) => {
+    console.log(message ? message : "Something went wrong");
+    setLoading(false);
+    props.setToastMessage({
+      message: "Something went wrong!",
+      type: "error",
+    });
+    props.setToastVisible(true);
+  };
+
   useEffect(() => {
     setLoading(true);
     const userDataDoc = localStorage.getItem("userDataDoc");
     if (userDataDoc !== null && userDataDoc !== "") {
       setUid(userDataDoc);
       setReferralURL(window.location.origin + "?ref=" + userDataDoc);
-      getPositionInQueue(userDataDoc).then((res) => {
-        if (res !== -1) {
-          console.log("Successfully got position in queue");
-          setQueuePosition(res);
-          setLoading(false);
-        } else {
-          console.log("Invalid userDataDoc");
-          localStorage.removeItem("userDataDoc");
-          setLoading(false);
-          window.location.reload();
-        }
-      });
+      getIndexInQueue(userDataDoc)
+        .then((res) => {
+          if (res !== -1) {
+            console.log("Successfully got position in queue");
+            setQueuePosition(res + 1);
+            getReferralNum(userDataDoc)
+              .then((res) => {
+                if (res !== -1) {
+                  console.log("Successfully got referral num");
+                  setNumOfReferrals(res);
+                  setLoading(false);
+                } else {
+                  handleError("Failed to get referral num");
+                }
+              })
+              .catch((err) => {
+                handleError(err);
+              });
+          } else {
+            localStorage.removeItem("userDataDoc");
+            handleError("Something went wrong!");
+            window.location.reload();
+          }
+        })
+        .catch((err) => {
+          handleError(err);
+        });
     }
   }, []);
 
