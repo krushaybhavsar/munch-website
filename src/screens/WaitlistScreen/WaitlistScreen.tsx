@@ -169,9 +169,9 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
             {width < 650
               ? " "
               : "We get it. We're hungry and lazy college students too. "}
-            That's why we created munch.{" "}
+            That's why we created Munch.{" "}
             <a href="#about-munch" className="waitlist__learn-more-desc">
-              What's munch?
+              What's Munch?
               <img
                 className="waitlist__learn-more__arrow"
                 src={require("../../assets/arrow-right.png")}

@@ -128,9 +128,7 @@ const ViewPositionScreen = (props: ViewPositionScreenProps) => {
                 </h1>
               </div>
               <CopyToClipboard
-                text={
-                  shareTitle + "\n\n" + shareDescription + "\n" + referralURL
-                }
+                text={shareTitle + "\n" + referralURL}
                 onCopy={() => {
                   props.setToastMessage({
                     message: "Copied to clipboard!",
