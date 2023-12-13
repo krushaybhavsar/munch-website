@@ -16,7 +16,7 @@ type WaitlistScreenProps = {
 };
 
 const WaitlistScreen = (props: WaitlistScreenProps) => {
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
   const [referralCode, setReferralCode] = useState<string>("");
@@ -45,7 +45,10 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
       const referralCode = urlParams.get("ref");
       if (referralCode) {
         setReferralCode(referralCode);
-        const res = await checkIfValidUID(referralCode);
+        const res = await checkIfValidUID(referralCode).catch((err) => {
+          handleError(err, "Error validating referral code!");
+          return false;
+        });
         return { isValid: res, ref: referralCode };
       }
     }
@@ -76,13 +79,12 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
         console.log("Valid form");
         setLoading(true);
         const handleRefRes = await handleReferralCode();
-        console.log(handleRefRes);
         await addEmailToQueue(email)
           .then(async (res) => {
             if (res.res) {
               console.log("Successfully added a new user to the queue");
               if (handleRefRes.isValid && handleRefRes.ref !== "") {
-                if (res.uid == handleRefRes.ref) {
+                if (res.uid === handleRefRes.ref) {
                   handleError(
                     "Users cannot refer themselves",
                     "You can't refer yourself!"
@@ -116,8 +118,8 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
               // setLoading(false);
             }
           })
-          .catch((err) => {
-            handleError(err);
+          .catch((err: any) => {
+            handleError(err, "Failed to add email to queue!");
           });
       }
     } catch (err) {
@@ -129,6 +131,7 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
     return (
       <div className={"waitlist__logo-container " + type}>
         <img
+          alt="munch-logo"
           className={"waitlist__logo " + type}
           src={require("../../assets/munch-transparent-logo.png")}
         />
@@ -141,6 +144,7 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
     return (
       <div className={"waitlist__right-content " + type}>
         <img
+          alt="girl-eating-donuts"
           className={"waitlist__right-img " + type}
           src={require("../../assets/eating-donuts.png")}
         />
@@ -173,6 +177,7 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
             <a href="#about-munch" className="waitlist__learn-more-desc">
               What's Munch?
               <img
+                alt="arrow-right"
                 className="waitlist__learn-more__arrow"
                 src={require("../../assets/arrow-right.png")}
               />

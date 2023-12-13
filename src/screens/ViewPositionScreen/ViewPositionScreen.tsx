@@ -33,17 +33,17 @@ const ViewPositionScreen = (props: ViewPositionScreenProps) => {
   const [numOfReferrals, setNumOfReferrals] = useState<number>(0);
   const [uid, setUid] = useState<string>("");
   const [referralURL, setReferralURL] = useState<string>("");
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
 
   const shareTitle = "Join the Munch waitlist! 🍪";
   const shareDescription =
     "Tired of dining hall food? Never know what to cook? Don't have to time to prep a meal yourself?\nMunch is a social cooking and homemade meal delivery app that connects you with other students on campus!\n\nJoin the waitlist now to get early access!";
 
-  const handleError = (message?: any) => {
+  const handleError = (message?: any, userMessage?: any) => {
     console.log(message ? message : "Something went wrong");
     setLoading(false);
     props.setToastMessage({
-      message: "Something went wrong!",
+      message: userMessage ? userMessage : "Something went wrong!",
       type: "error",
     });
     props.setToastVisible(true);
@@ -67,11 +67,14 @@ const ViewPositionScreen = (props: ViewPositionScreenProps) => {
                   setNumOfReferrals(res);
                   setLoading(false);
                 } else {
-                  handleError("Failed to get referral num");
+                  handleError(
+                    "Failed to get referral number!",
+                    "Failed to get referral number!"
+                  );
                 }
               })
-              .catch((err) => {
-                handleError(err);
+              .catch((err: any) => {
+                handleError(err, "Error getting referral number!");
               });
           } else {
             localStorage.removeItem("userDataDoc");
@@ -80,7 +83,7 @@ const ViewPositionScreen = (props: ViewPositionScreenProps) => {
           }
         })
         .catch((err) => {
-          handleError(err);
+          handleError(err, "Error getting position in queue!");
         });
     }
   }, []);
@@ -89,6 +92,7 @@ const ViewPositionScreen = (props: ViewPositionScreenProps) => {
     return (
       <div className={"vps_waitlist__logo-container " + type}>
         <img
+          alt="munch-logo"
           className={"vps_waitlist__logo " + type}
           src={require("../../assets/munch-transparent-logo.png")}
         />
@@ -105,6 +109,7 @@ const ViewPositionScreen = (props: ViewPositionScreenProps) => {
       >
         {getLogoContainer("top")}
         <img
+          alt="background-design"
           className="vps-header-image"
           src={require("../../assets/liquid-cheese.png")}
         />
@@ -128,7 +133,7 @@ const ViewPositionScreen = (props: ViewPositionScreenProps) => {
                 </h1>
               </div>
               <CopyToClipboard
-                text={shareTitle + "\n" + referralURL}
+                text={referralURL}
                 onCopy={() => {
                   props.setToastMessage({
                     message: "Copied to clipboard!",

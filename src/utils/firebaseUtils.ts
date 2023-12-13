@@ -11,7 +11,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { auth, db } from "../firebaseConfig";
+import { db } from "../firebaseConfig";
 
 export const addEmailToQueue = async (
   email: string
@@ -21,7 +21,7 @@ export const addEmailToQueue = async (
     const queueArray = await getQueue();
     const docId = await addEmailToUserData(email);
     if (docId !== "") {
-      const docRef = await setDoc(doc(db, "waitlistData", "queue"), {
+      await setDoc(doc(db, "waitlistData", "queue"), {
         queueArray: [...queueArray, docId],
       }).catch((error) => {
         console.log("Error adding email to queue: " + error);
@@ -71,7 +71,7 @@ export const addEmailToUserData = async (email: string): Promise<string> => {
 export const getQueue = async (): Promise<string[]> => {
   const docRef = doc(db, "waitlistData", "queue");
   const docSnap = await getDoc(docRef);
-  if (docSnap.exists() && docSnap.data().queueArray !== undefined) {
+  if (docSnap && docSnap.exists() && docSnap.data().queueArray !== undefined) {
     return docSnap.data().queueArray;
   } else {
     console.log("No such document: " + docRef.path);
@@ -108,17 +108,22 @@ export const getIndexInQueue = async (
 export const getReferralNum = async (uid: string): Promise<number> => {
   const docRef = doc(db, "waitlistData", "queue", "userData", uid);
   const docSnap = await getDoc(docRef);
-  if (docSnap.exists() && docSnap.data().referrals !== undefined) {
+  if (docSnap && docSnap.exists() && docSnap.data().referrals !== undefined) {
     return docSnap.data().referrals.length;
   } else {
-    console.log("No such document: " + docRef.path);
+    console.log("No such document: " + docRef?.path);
     return -1;
   }
 };
 
 export const checkIfValidUID = async (uid: string): Promise<boolean> => {
   const docRef = doc(db, "waitlistData", "queue", "userData", uid);
-  const docSnap = await getDoc(docRef);
+  const docSnap = await getDoc(docRef).catch((error) => {
+    console.log("Error getting document " + uid + ": ", error);
+  });
+  if (!docSnap || docSnap === undefined || docSnap === null) {
+    return false;
+  }
   return docSnap.exists();
 };
 
@@ -143,16 +148,20 @@ export const updateUserPositionByNum = async (
     newQueueIndex = 0;
   }
   const qArray = await getQueue();
-  qArray.splice(oldQueueIndex, 1);
-  qArray.splice(newQueueIndex, 0, uid);
-  await setDoc(doc(db, "waitlistData", "queue"), {
-    queueArray: qArray,
-  })
-    .then(() => {
-      console.log("Updated queue array");
+  if (newQueueIndex >= qArray.length) {
+    newQueueIndex = qArray.length - 1;
+  }
+  if (newQueueIndex >= 0) {
+    qArray.splice(oldQueueIndex, 1);
+    qArray.splice(newQueueIndex, 0, uid);
+    await setDoc(doc(db, "waitlistData", "queue"), {
+      queueArray: qArray,
     })
-    .catch((error) => {
-      console.log("Error adding email to queue: " + error);
-      return;
-    });
+      .then(() => {
+        console.log("Updated queue array");
+      })
+      .catch((error) => {
+        console.log("Error adding email to queue: " + error);
+      });
+  }
 };
