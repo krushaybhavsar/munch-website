@@ -11,7 +11,9 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { db } from "../firebaseConfig";
+import { analytics, db } from "../firebaseConfig";
+import { logEvent } from "firebase/analytics";
+import MobileDetect from "mobile-detect";
 
 export const addEmailToQueue = async (
   email: string
@@ -27,9 +29,6 @@ export const addEmailToQueue = async (
         console.log("Error adding email to queue: " + error);
         return { res: false, uid: "" };
       });
-      // await updateQueueIndexProp(docId, queueArray.length).then(() => {
-      //   console.log("Updated queue index");
-      // });
     }
     return { res: true, uid: docId };
   } else {
@@ -57,16 +56,6 @@ export const addEmailToUserData = async (email: string): Promise<string> => {
     return "";
   }
 };
-
-// export const updateQueueIndexProp = async (
-//   docID: string,
-//   newQueueIndex: number
-// ) => {
-//   const docRef = doc(db, "waitlistData", "queue", "userData", docID);
-//   await updateDoc(docRef, {
-//     queueIndex: newQueueIndex,
-//   });
-// };
 
 export const getQueue = async (): Promise<string[]> => {
   const docRef = doc(db, "waitlistData", "queue");
@@ -164,4 +153,23 @@ export const updateUserPositionByNum = async (
         console.log("Error adding email to queue: " + error);
       });
   }
+};
+
+export const logAnalyticsEvent = async (
+  eventName: string,
+  values: { [key: string]: string }
+) => {
+  if (values.message) {
+    console.log(
+      "Logging event " + eventName + " with message: " + values.message
+    );
+  }
+  const mobileDetect = new MobileDetect(window.navigator.userAgent);
+  logEvent(analytics, eventName, {
+    ...values,
+    triggerTimestamp: new Date().toString(),
+    browser: mobileDetect.userAgent(),
+    operatingSystem: mobileDetect.os(),
+    deviceType: mobileDetect.mobile() ? "mobile" : "desktop",
+  });
 };

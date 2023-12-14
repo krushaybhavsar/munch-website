@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./WaitlistScreen.css";
 import useWindowDimensions from "../../utils/useWindowDimensions";
 import {
   addEmailToQueue,
   addUserReferral,
   checkIfValidUID,
+  logAnalyticsEvent,
 } from "../../utils/firebaseUtils";
 import { CollegeEmailSuffixes, ToastInfo } from "../../types";
 import CustomModal from "../../components/CustomModal/CustomModal";
@@ -24,8 +25,12 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
     "Adding you to the waitlist..."
   );
 
-  const handleError = (message?: any, userMessage?: string) => {
-    console.log(message ? message : "Something went wrong");
+  const handleError = (message?: any, userMessage?: string, uid?: string) => {
+    logAnalyticsEvent("error", {
+      errorMessage: message ? message.toString() : "Something went wrong.",
+      page: "waitlist_screen",
+      uid: uid ? uid : "N/A",
+    });
     setLoading(false);
     props.setToastMessage({
       message: userMessage ? userMessage : "Something went wrong!",
@@ -46,7 +51,10 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
       if (referralCode) {
         setReferralCode(referralCode);
         const res = await checkIfValidUID(referralCode).catch((err) => {
-          handleError(err, "Error validating referral code!");
+          handleError(
+            err + "\n\nReferral Code Attempted: " + referralCode,
+            "Error validating referral code!"
+          );
           return false;
         });
         return { isValid: res, ref: referralCode };
@@ -76,21 +84,24 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
     try {
       e.preventDefault();
       if (isValidForm()) {
-        console.log("Valid form");
         setLoading(true);
         const handleRefRes = await handleReferralCode();
         await addEmailToQueue(email)
           .then(async (res) => {
             if (res.res) {
-              console.log("Successfully added a new user to the queue");
+              logAnalyticsEvent("waitlist_sign_up", {
+                email: email,
+                uid: res.uid,
+                message: "Successfully added email to waitlist",
+              });
               if (handleRefRes.isValid && handleRefRes.ref !== "") {
                 if (res.uid === handleRefRes.ref) {
                   handleError(
-                    "Users cannot refer themselves",
-                    "You can't refer yourself!"
+                    "Users cannot refer themselves.",
+                    "You can't refer yourself!",
+                    res.uid
                   );
                 } else {
-                  console.log("Valid referral code");
                   props.setToastMessage({
                     message: "Valid referral code!",
                     type: "success",
@@ -98,13 +109,17 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
                   props.setToastVisible(true);
                   await addUserReferral(handleRefRes.ref, res.uid).catch(
                     (err) => {
-                      handleError(err, "Failed to add referral code!");
+                      handleError(err, "Failed to add referral code!", res.uid);
                     }
                   );
                 }
               }
             } else {
-              console.log("Did not add a new user to the queue");
+              logAnalyticsEvent("user_sign_in", {
+                email: email,
+                uid: res.uid,
+                message: "Did not add a new user to the queue.",
+              });
             }
             if (
               res.uid &&
@@ -113,17 +128,21 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
               res.uid !== ""
             ) {
               localStorage.setItem("userDataDoc", res.uid);
-              console.log("Successfully set userDataDoc in localStorage");
               window.location.reload();
-              // setLoading(false);
             }
           })
           .catch((err: any) => {
-            handleError(err, "Failed to add email to queue!");
+            handleError(
+              err + "\n\nEmail Attempted: " + email,
+              "Failed to add email to queue!"
+            );
           });
       }
     } catch (err) {
-      handleError(err, "Failed to add email to waitlist!");
+      handleError(
+        err + "\n\nEmail Attempted: " + email,
+        "Failed to add email to waitlist!"
+      );
     }
   };
 
