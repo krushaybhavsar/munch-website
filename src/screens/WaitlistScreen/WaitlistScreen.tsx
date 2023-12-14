@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./WaitlistScreen.css";
 import useWindowDimensions from "../../utils/useWindowDimensions";
 import {
@@ -11,6 +11,7 @@ import { CollegeEmailSuffixes, ToastInfo } from "../../types";
 import CustomModal from "../../components/CustomModal/CustomModal";
 import LoadingModalContent from "../../components/CustomModal/LoadingModalContent/LoadingModalContent";
 import Recaptcha from "react-recaptcha";
+import ReCAPTCHA from "react-google-recaptcha";
 
 type WaitlistScreenProps = {
   setToastMessage: React.Dispatch<React.SetStateAction<ToastInfo>>;
@@ -23,7 +24,6 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [referralCode, setReferralCode] = useState<string>("");
   const [captchaDone, setCaptchaDone] = useState<boolean>(false);
-  const [joinButtonClicked, setJoinButtonClicked] = useState<boolean>(false);
   const [loadingDescription, setLoadingDescription] = useState<string>(
     "Adding you to the waitlist..."
   );
@@ -86,15 +86,6 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
   ) => {
     e.preventDefault();
     if (!captchaDone) {
-      if (joinButtonClicked) {
-        props.setToastMessage({
-          message: "Please complete the reCAPTCHA!",
-          type: "error",
-        });
-        props.setToastVisible(true);
-      } else {
-        setJoinButtonClicked(true);
-      }
       return;
     }
     try {
@@ -186,20 +177,30 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
     );
   };
 
-  const reCaptchaLoaded = () => {
-    console.log("Recaptcha successfully Loaded");
-  };
-
-  const verifyCallback = (response: string) => {
-    console.log(response);
-    if (response) {
-      setCaptchaDone(true);
-    }
-  };
-
   const getCaptchaSiteKey = (): string => {
-    return process.env.REACT_APP_RECAPTCHA_PROD_SITE_KEY || "test-site-key";
+    if (process.env.REACT_APP_RECAPTCHA_PROD_SITE_KEY) {
+      return process.env.REACT_APP_RECAPTCHA_PROD_SITE_KEY;
+    }
+    return "site-key-not-found";
   };
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src =
+      "https://www.google.com/recaptcha/api.js?render=" + getCaptchaSiteKey();
+    script.addEventListener("load", () => {
+      (window as any).grecaptcha.ready(() => {
+        (window as any).grecaptcha
+          .execute(getCaptchaSiteKey())
+          .then((token: any) => {
+            if (token) {
+              setCaptchaDone(true);
+            }
+          });
+      });
+    });
+    document.body.appendChild(script);
+  }, []);
 
   return (
     <>
@@ -251,19 +252,12 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
               </button>
             </form>
           </div>
-          <div
-            className={
-              "waitlist__captcha-container" +
-              (joinButtonClicked ? " open" : " closed")
-            }
-          >
-            <Recaptcha
-              sitekey={getCaptchaSiteKey()}
-              render="explicit"
-              onloadCallback={reCaptchaLoaded}
-              verifyCallback={verifyCallback}
-              size="normal"
-            />
+          <div className={"waitlist__captcha-container"}>
+            <div
+              className="g-recaptcha"
+              site-key=""
+              data-size="invisible"
+            ></div>
           </div>
         </div>
         {getRightContent("right")}

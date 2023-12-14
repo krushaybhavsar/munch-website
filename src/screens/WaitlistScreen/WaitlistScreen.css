@@ -168,7 +168,7 @@
   display: none;
 }
 
-.waitlist__captcha-container {
+/* .waitlist__captcha-container {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -184,7 +184,7 @@
 
 .waitlist__captcha-container.closed {
   max-height: 0px;
-}
+} */
 
 @media only screen and (max-width: 1180px) {
   .waitlist-screen {
