@@ -192,11 +192,7 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
   };
 
   const getCaptchaSiteKey = (): string => {
-    if (window.location.origin !== "http://localhost:3000") {
-      return process.env.REACT_APP_RECAPTCHA_PROD_SITE_KEY || "test-site-key";
-    } else {
-      return process.env.REACT_APP_RECAPTCHA_DEV_SITE_KEY || "test-site-key";
-    }
+    return process.env.REACT_APP_RECAPTCHA_PROD_SITE_KEY || "test-site-key";
   };
 
   return (
@@ -257,7 +253,10 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
           >
             <ReCAPTCHA
               sitekey={getCaptchaSiteKey()}
+              type="image"
               onChange={onCaptchaChange}
+              theme="light"
+              size="normal"
             />
           </div>
         </div>
