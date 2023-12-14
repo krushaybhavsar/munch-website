@@ -86,6 +86,10 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
   ) => {
     e.preventDefault();
     if (!captchaDone) {
+      handleError(
+        "reCAPTCHA failed to load.",
+        "reCAPTCHA failed to load. Please refresh the page and try again."
+      );
       return;
     }
     try {
