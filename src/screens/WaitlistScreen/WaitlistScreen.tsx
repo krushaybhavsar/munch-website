@@ -10,7 +10,7 @@ import {
 import { CollegeEmailSuffixes, ToastInfo } from "../../types";
 import CustomModal from "../../components/CustomModal/CustomModal";
 import LoadingModalContent from "../../components/CustomModal/LoadingModalContent/LoadingModalContent";
-import ReCAPTCHA from "react-google-recaptcha";
+import Recaptcha from "react-recaptcha";
 
 type WaitlistScreenProps = {
   setToastMessage: React.Dispatch<React.SetStateAction<ToastInfo>>;
@@ -186,9 +186,15 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
     );
   };
 
-  const onCaptchaChange = (value: any) => {
-    setCaptchaDone(value);
-    console.log("Captcha value:", value);
+  const reCaptchaLoaded = () => {
+    console.log("Recaptcha successfully Loaded");
+  };
+
+  const verifyCallback = (response: string) => {
+    console.log(response);
+    if (response) {
+      setCaptchaDone(true);
+    }
   };
 
   const getCaptchaSiteKey = (): string => {
@@ -251,11 +257,11 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
               (joinButtonClicked ? " open" : " closed")
             }
           >
-            <ReCAPTCHA
+            <Recaptcha
               sitekey={getCaptchaSiteKey()}
-              type="image"
-              onChange={onCaptchaChange}
-              theme="light"
+              render="explicit"
+              onloadCallback={reCaptchaLoaded}
+              verifyCallback={verifyCallback}
               size="normal"
             />
           </div>
