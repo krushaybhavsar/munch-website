@@ -10,6 +10,7 @@ import {
 import { CollegeEmailSuffixes, ToastInfo } from "../../types";
 import CustomModal from "../../components/CustomModal/CustomModal";
 import LoadingModalContent from "../../components/CustomModal/LoadingModalContent/LoadingModalContent";
+import ReCAPTCHA from "react-google-recaptcha";
 
 type WaitlistScreenProps = {
   setToastMessage: React.Dispatch<React.SetStateAction<ToastInfo>>;
@@ -21,6 +22,8 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
   const [referralCode, setReferralCode] = useState<string>("");
+  const [captchaDone, setCaptchaDone] = useState<boolean>(false);
+  const [joinButtonClicked, setJoinButtonClicked] = useState<boolean>(false);
   const [loadingDescription, setLoadingDescription] = useState<string>(
     "Adding you to the waitlist..."
   );
@@ -81,8 +84,20 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
   const handleJoinWaitlist = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
+    e.preventDefault();
+    if (!captchaDone) {
+      if (joinButtonClicked) {
+        props.setToastMessage({
+          message: "Please complete the reCAPTCHA!",
+          type: "error",
+        });
+        props.setToastVisible(true);
+      } else {
+        setJoinButtonClicked(true);
+      }
+      return;
+    }
     try {
-      e.preventDefault();
       if (isValidForm()) {
         setLoading(true);
         const handleRefRes = await handleReferralCode();
@@ -171,6 +186,19 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
     );
   };
 
+  const onCaptchaChange = (value: any) => {
+    setCaptchaDone(value);
+    console.log("Captcha value:", value);
+  };
+
+  const getCaptchaSiteKey = (): string => {
+    if (window.location.origin !== "http://localhost:3000") {
+      return process.env.REACT_APP_RECAPTCHA_PROD_SITE_KEY || "test-site-key";
+    } else {
+      return process.env.REACT_APP_RECAPTCHA_DEV_SITE_KEY || "test-site-key";
+    }
+  };
+
   return (
     <>
       <div
@@ -220,6 +248,17 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
                 I'm in!
               </button>
             </form>
+          </div>
+          <div
+            className={
+              "waitlist__captcha-container" +
+              (joinButtonClicked ? " open" : " closed")
+            }
+          >
+            <ReCAPTCHA
+              sitekey={getCaptchaSiteKey()}
+              onChange={onCaptchaChange}
+            />
           </div>
         </div>
         {getRightContent("right")}

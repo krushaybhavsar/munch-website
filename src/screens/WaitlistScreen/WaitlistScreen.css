@@ -168,6 +168,24 @@
   display: none;
 }
 
+.waitlist__captcha-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  transition: all 1s ease;
+  overflow: hidden;
+}
+
+.waitlist__captcha-container.open {
+  max-height: 300px;
+}
+
+.waitlist__captcha-container.closed {
+  max-height: 0px;
+}
+
 @media only screen and (max-width: 1180px) {
   .waitlist-screen {
     padding: 0 5vw 0 10vw;
