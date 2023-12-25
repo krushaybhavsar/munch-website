@@ -88,7 +88,7 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
     if (!captchaDone) {
       handleError(
         "reCAPTCHA failed to load.",
-        "reCAPTCHA failed to load. Please refresh the page and try again."
+        "reCAPTCHA failed to load! Please refresh the page and try again."
       );
       return;
     }
@@ -227,15 +227,15 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
             {width < 650
               ? " "
               : "We get it. We're hungry and lazy college students too. "}
-            That's why we created Munch.{" "}
-            <a href="#about-munch" className="waitlist__learn-more-desc">
+            That's why we created Munch.
+            {/* <a href="#about-munch" className="waitlist__learn-more-desc">
               What's Munch?
               <img
                 alt="arrow-right"
                 className="waitlist__learn-more__arrow"
                 src={require("../../assets/arrow-right.png")}
               />
-            </a>
+            </a> */}
           </h3>
           <div className="waitlist__right-content__form">
             <h2 className="waitlist__form-title">Join the waitlist</h2>
