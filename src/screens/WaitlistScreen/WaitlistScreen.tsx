@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./WaitlistScreen.css";
 import useWindowDimensions from "../../utils/useWindowDimensions";
 import {
@@ -10,8 +10,7 @@ import {
 import { CollegeEmailSuffixes, ToastInfo } from "../../types";
 import CustomModal from "../../components/CustomModal/CustomModal";
 import LoadingModalContent from "../../components/CustomModal/LoadingModalContent/LoadingModalContent";
-import Recaptcha from "react-recaptcha";
-import ReCAPTCHA from "react-google-recaptcha";
+import LearnMoreScreen from "../LearnMoreScreen/LearnMoreScreen";
 
 type WaitlistScreenProps = {
   setToastMessage: React.Dispatch<React.SetStateAction<ToastInfo>>;
@@ -27,6 +26,18 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
   const [loadingDescription, setLoadingDescription] = useState<string>(
     "Adding you to the waitlist..."
   );
+
+  const learnMoreRef = useRef<HTMLDivElement>(null);
+
+  const scrollToSection = (containerRef: React.RefObject<HTMLDivElement>) => {
+    if (!containerRef.current) {
+      return;
+    }
+    containerRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
 
   const handleError = (message?: any, userMessage?: string, uid?: string) => {
     logAnalyticsEvent("error", {
@@ -208,64 +219,84 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
 
   return (
     <>
-      <div
-        className="waitlist-screen"
-        style={loading ? { filter: "blur(3px)" } : {}}
-      >
-        {getLogoContainer("top")}
-        {getRightContent("top")}
-        <div className="waitlist__left-content">
-          {getLogoContainer("left")}
-          <h2 className="waitlist-title">
-            Experience campus food like never before.
-          </h2>
-          <h3 className="waitlist-description">
-            Tired of dining hall food? Never know what to cook? Don't have to
-            time or skills to prep a homemade meal yourself?{" "}
-            <b>Neither do we.</b>
-            <br />
-            {width < 650
-              ? " "
-              : "We get it. We're hungry and lazy college students too. "}
-            That's why we created Munch.
-            {/* <a href="#about-munch" className="waitlist__learn-more-desc">
-              What's Munch?
-              <img
+      <div className="waitlist-screen-with-learn-more">
+        <div className="waitlist-screen-with-bottom">
+          <div
+            className="waitlist-screen"
+            style={loading ? { filter: "blur(3px)" } : {}}
+          >
+            {getLogoContainer("top")}
+            {getRightContent("top")}
+            <div className="waitlist__left-content">
+              {getLogoContainer("left")}
+              <h2 className="waitlist-title">
+                Experience campus food like never before.
+              </h2>
+              <h3 className="waitlist-description">
+                Tired of dining hall food? Never know what to cook? Don't have
+                to time or skills to prep a homemade meal yourself?{" "}
+                <b>Neither do we.</b>
+                <br />
+                {width < 650
+                  ? " "
+                  : "We get it. We're hungry and lazy college students too. "}
+                That's why we created Munch.{" "}
+                <a
+                  className="waitlist__learn-more-desc"
+                  onClick={() => scrollToSection(learnMoreRef)}
+                >
+                  What's Munch?
+                  {/* <img
                 alt="arrow-right"
                 className="waitlist__learn-more__arrow"
                 src={require("../../assets/arrow-right.png")}
-              />
-            </a> */}
-          </h3>
-          <div className="waitlist__right-content__form">
-            <h2 className="waitlist__form-title">Join the waitlist</h2>
-            <form>
-              <input
-                type="email"
-                placeholder="Georgia Tech Email"
-                className="waitlist__email-input"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
-              />
-              <button
-                type="submit"
-                className="waitlist__submit-btn"
-                onClick={(e) => handleJoinWaitlist(e)}
-              >
-                I'm in!
-              </button>
-            </form>
+              /> */}
+                </a>
+              </h3>
+              <div className="waitlist__right-content__form">
+                <h2 className="waitlist__form-title">Join the waitlist</h2>
+                <form>
+                  <input
+                    type="email"
+                    placeholder="Georgia Tech Email"
+                    className="waitlist__email-input"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                  />
+                  <button
+                    type="submit"
+                    className="waitlist__submit-btn"
+                    onClick={(e) => handleJoinWaitlist(e)}
+                  >
+                    I'm in!
+                  </button>
+                </form>
+              </div>
+              <div className={"waitlist__captcha-container"}>
+                <div
+                  className="g-recaptcha"
+                  site-key=""
+                  data-size="invisible"
+                ></div>
+              </div>
+            </div>
+            {getRightContent("right")}
           </div>
-          <div className={"waitlist__captcha-container"}>
-            <div
-              className="g-recaptcha"
-              site-key=""
-              data-size="invisible"
-            ></div>
+          <div
+            className="learn-more-bottom-container"
+            onClick={() => scrollToSection(learnMoreRef)}
+          >
+            <h3 className="learn-more-bottom-text">
+              What's Munch?
+              <img
+                alt="arrow-right"
+                className="learn-more-bottom-arrow"
+                src={require("../../assets/arrow-right.png")}
+              />
+            </h3>
           </div>
         </div>
-        {getRightContent("right")}
-        <div className="learn-more-bottom-container"></div>
+        <LearnMoreScreen containerRef={learnMoreRef} />
       </div>
       <CustomModal
         modalContent={

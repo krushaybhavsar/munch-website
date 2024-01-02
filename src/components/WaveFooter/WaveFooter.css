@@ -1,0 +1,19 @@
+.wave-footer {
+  fill: var(--lighterYellow);
+  transform: rotate(180deg);
+}
+
+.wave-footer-path1 {
+  fill: var(--lighterYellow);
+  opacity: 0.5;
+}
+
+.wave-footer-path2 {
+  fill: var(--lighterYellow);
+  opacity: 0.7;
+}
+
+.wave-footer-path3 {
+  fill: var(--lighterYellow);
+  opacity: 0.5;
+}

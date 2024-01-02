@@ -1,0 +1,134 @@
+.learn-more-detail-section-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 0 0 50px 0;
+}
+
+.learn-more-detail-section-container.reverse {
+  flex-direction: row-reverse;
+}
+
+.learn-more-detail-section-half {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+}
+
+.learn-more-detail-section-half.left {
+  /* align-items: flex-end; */
+  margin-right: 40px;
+}
+
+.learn-more-detail-section-half.right {
+  /* align-items: flex-start; */
+}
+
+.learn-more-detail-section-number {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid var(--blackText);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.learn-more-detail-section-number>p {
+  font-family: 'CircularStd', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--blackText);
+  text-align: center;
+}
+
+.learn-more-detail-section-title {
+  font-family: 'CircularStd', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  color: var(--blackText);
+  text-align: start;
+  width: 100%;
+}
+
+.learn-more-detail-section-subtitle {
+  font-family: 'CircularStd', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  color: var(--blackText);
+  text-align: start;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.learn-more-detail-section-body {
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--blackText);
+  text-align: start;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.learn-more-detail-section-image-container {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 350px;
+}
+
+.learn-more-detail-section-image-container>img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media only screen and (max-width: 775px) {
+  .learn-more-detail-section-container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .learn-more-detail-section-container.reverse {
+    flex-direction: column;
+  }
+
+  .learn-more-detail-section-half {
+    width: 100%;
+    margin: 0;
+  }
+
+  .learn-more-detail-section-half.left {
+    align-items: center;
+    margin: 0;
+  }
+
+  .learn-more-detail-section-half.right {
+    align-items: center;
+    margin: 0;
+  }
+
+  .learn-more-detail-section-title {
+    text-align: center;
+  }
+
+  .learn-more-detail-section-subtitle {
+    text-align: center;
+  }
+
+  .learn-more-detail-section-body {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .learn-more-detail-section-image-container {
+    margin-bottom: 50px;
+  }
+}
