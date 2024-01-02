@@ -234,7 +234,7 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
               </h2>
               <h3 className="waitlist-description">
                 Tired of dining hall food? Never know what to cook? Don't have
-                to time or skills to prep a homemade meal yourself?{" "}
+                the time or skills to prep a homemade meal yourself?{" "}
                 <b>Neither do we.</b>
                 <br />
                 {width < 650
