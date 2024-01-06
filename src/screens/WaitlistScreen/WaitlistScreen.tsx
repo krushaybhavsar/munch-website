@@ -290,7 +290,7 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
               <span className="scroll-icon__dot"></span>
             </span> */}
             <h3 className="learn-more-bottom-text">
-              Scroll to learn more
+              What's Munch?
               <img
                 alt="arrow-right"
                 className="learn-more-bottom-arrow"

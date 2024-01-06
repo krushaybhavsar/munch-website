@@ -14,6 +14,7 @@
 }
 
 .wave-footer-path3 {
-  fill: var(--lighterYellow);
-  opacity: 0.5;
+  /* fill: var(--lighterYellow); */
+  fill: #FBE370;
+  /* opacity: 0.5; */
 }

@@ -71,7 +71,7 @@ const LearnMoreScreen = (props: LearnMoreScreenProps) => {
       <WaveFooter
         style={{
           position: "absolute",
-          top: 0,
+          top: -2,
           left: 0,
           right: 0,
           zIndex: 1,
