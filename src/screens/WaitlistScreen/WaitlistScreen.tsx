@@ -242,15 +242,15 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
                   : "We get it. We're hungry and lazy college students too. "}
                 That's why we created Munch.{" "}
                 <a
-                  className="waitlist__learn-more-desc"
+                  className="waitlist__learn-more-desc noselect"
                   onClick={() => scrollToSection(learnMoreRef)}
                 >
                   What's Munch?
-                  {/* <img
-                alt="arrow-right"
-                className="waitlist__learn-more__arrow"
-                src={require("../../assets/arrow-right.png")}
-              /> */}
+                  <img
+                    alt="arrow-right"
+                    className="waitlist__learn-more__arrow"
+                    src={require("../../assets/arrow-right.png")}
+                  />
                 </a>
               </h3>
               <div className="waitlist__right-content__form">
@@ -283,11 +283,14 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
             {getRightContent("right")}
           </div>
           <div
-            className="learn-more-bottom-container"
+            className="learn-more-bottom-container noselect"
             onClick={() => scrollToSection(learnMoreRef)}
           >
+            {/* <span className="scroll-icon">
+              <span className="scroll-icon__dot"></span>
+            </span> */}
             <h3 className="learn-more-bottom-text">
-              What's Munch?
+              Scroll to learn more
               <img
                 alt="arrow-right"
                 className="learn-more-bottom-arrow"
