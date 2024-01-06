@@ -74,7 +74,6 @@ const LearnMoreScreen = (props: LearnMoreScreenProps) => {
           top: -2,
           left: 0,
           right: 0,
-          zIndex: 1,
         }}
       />
       <h1 className="learn-more-screen-title">
