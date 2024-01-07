@@ -236,10 +236,10 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
                 Tired of dining hall food? Never know what to cook? Don't have
                 the time or skills to prep a homemade meal yourself?{" "}
                 <b>Neither do we.</b>
-                <br />
+                {/* <br /> */}
                 {width < 650
                   ? " "
-                  : "We get it. We're hungry and lazy college students too. "}
+                  : " We get it. We're hungry and lazy college students too. "}
                 That's why we created Munch.{" "}
                 <a
                   className="waitlist__learn-more-desc noselect"
