@@ -378,7 +378,7 @@
     justify-content: flex-start;
     flex-direction: column;
     padding: 0 15vw;
-    /* max-height: 100vh; */
+    max-height: 100vh;
   }
 
   .waitlist__left-content,
