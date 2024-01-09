@@ -77,7 +77,7 @@ const LearnMoreScreen = (props: LearnMoreScreenProps) => {
         }}
       />
       <h1 className="learn-more-screen-title">
-        {"A one-stop culinary hub for all your stomach's needs."}
+        {"The one-stop hub for all your stomach's needs."}
       </h1>
 
       {screenWidth > 975 ? (
@@ -110,19 +110,19 @@ const LearnMoreScreen = (props: LearnMoreScreenProps) => {
       <div className="learn-more-screen-bottom">
         <LearnMoreDetailSection
           detailIndex={0}
-          title="Order meals from local restaurants."
-          subtitle="Free delivery. No BS fees."
-          body="Our flipped delivery model slashes unnecessary expenses, ensuring that the price you see is the price you pay—no surprises, just great food. How does it work? Local restaurants list their meals along with designated drop-off locations and specified time windows for you to conveniently pick them up."
+          title="Free delivery from local restaurants."
+          subtitle="No BS fees. Ever."
+          body="Our flipped delivery model ensures that the price of the dish is the price you pay. How does it work? Local restaurants list meals along with designated drop-off locations and specified time windows for you to conveniently pick them up."
         />
         <LearnMoreDetailSection
           detailIndex={1}
-          title="Discover diverse recipes by local campus chefs."
-          body="Cooking for yourself can be a challenge, especially when you're short on time or ideas. Let local campus chefs inspire your culinary journey with their diverse and creative recipes. When it comes to browsing through recipes, Munch offers an array of meals prepared by talented chefs from nearby campuses. These recipes are crafted considering the ingredients readily available in your area, ensuring you can replicate them with ease."
+          title="Harness your culinary skills for profit."
+          body="Have a knack for cooking? List your meals on Munch and let the dough roll in. Showcase your skills, inspire others to cook, and even earn extra income—all while doing what you love."
         />
         <LearnMoreDetailSection
           detailIndex={2}
-          title="Harness your culinary skills for profit."
-          body="Have a knack for cooking? List your meals on Munch and let the dough roll in. Showcase your skills, earn extra income, and inspire others with your meals—all while doing what you love."
+          title="Discover diverse recipes by local campus chefs."
+          body="Cooking for yourself can be hard when you're short on time. Munch makes browsing through recipes seamless, helping you find the right recipe for a quick bite on the go or even a date night!"
         />
       </div>
     </div>

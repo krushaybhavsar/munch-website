@@ -18,13 +18,13 @@ const LearnMoreDetailSection = (props: LearnMoreDetailSectionProps) => {
         };
       case 1:
         return {
-          src: require("../../assets/eating-food.png"),
-          alt: "Woman Eating Food",
+          src: require("../../assets/chef-cooking.png"),
+          alt: "Chef Cooking",
         };
       case 2:
         return {
-          src: require("../../assets/chef-cooking.png"),
-          alt: "Chef Cooking",
+          src: require("../../assets/eating-food.png"),
+          alt: "Woman Eating Food",
         };
       default:
         return {

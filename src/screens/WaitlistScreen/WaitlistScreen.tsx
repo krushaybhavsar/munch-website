@@ -233,19 +233,18 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
                 Experience campus food like never before.
               </h2>
               <h3 className="waitlist-description">
-                Tired of dining hall food? Never know what to cook? Don't have
-                the time or skills to prep a homemade meal yourself?{" "}
-                <b>Neither do we.</b>
-                {/* <br /> */}
-                {width < 650
-                  ? " "
-                  : " We get it. We're hungry and lazy college students too. "}
-                That's why we created Munch.{" "}
+                Tired of paying crazy delivery fees on DoorDash? 
+                Is cooking too much of a hassle?{" "}
+                <b >We get it. </b>
+                <br/>
+                {/* <br/>
+                <br/> */}
+                <p className="waitlist-we-get-it">That's why we created <b>Munch</b>.{" "}</p>
                 <a
                   className="waitlist__learn-more-desc noselect"
                   onClick={() => scrollToSection(learnMoreRef)}
                 >
-                  What's Munch?
+                  Learn more?
                   <img
                     alt="arrow-right"
                     className="waitlist__learn-more__arrow"
