@@ -71,7 +71,7 @@ const LearnMoreScreen = (props: LearnMoreScreenProps) => {
 
   return (
     <div className="learn-more-screen" ref={props.containerRef}>
-      {screenWidth < 975 && (
+      {screenWidth < 455 && (
         <WaveFooterUp
           style={{
             position: "absolute",

@@ -92,7 +92,7 @@
 
 .waitlist-description {
   font-weight: 400;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
 }
 
 .waitlist__right-content__form {
@@ -113,7 +113,7 @@
 .waitlist__form-title {
   font-family: 'CircularStd', sans-serif;
   font-weight: 700;
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: var(--blackText);
   width: 100%;
   margin-bottom: 16px;
@@ -380,7 +380,7 @@
     justify-content: flex-start;
     flex-direction: column;
     padding: 0 15vw;
-    max-height: 100vh;
+    /* max-height: 100vh; */
   }
 
   .waitlist__left-content,
@@ -524,14 +524,17 @@
     width: 40px;
     height: 40px;
   }
-
-  .learn-more-bottom-container {
-    height: fit-content;
-  }
 }
 
 @media screen and (max-height: 755px) and (max-width: 882px) {
   .waitlist-screen-with-bottom {
     height: fit-content;
+  }
+}
+
+@media screen and (max-width: 455px) {
+  .learn-more-bottom-container {
+    height: fit-content;
+    padding-bottom: 8px;
   }
 }
