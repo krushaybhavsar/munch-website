@@ -90,7 +90,7 @@ const LearnMoreScreen = (props: LearnMoreScreenProps) => {
         }}
       />
       <h1 className="learn-more-screen-title">
-        {"The one-stop hub for all your stomach's needs."}
+        {"The one-stop hub for all your inner foodie's needs."}
       </h1>
 
       {screenWidth > 975 ? (
