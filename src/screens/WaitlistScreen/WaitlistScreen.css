@@ -191,6 +191,7 @@
   width: 100vw;
   height: 42px;
   cursor: pointer;
+  /* z-index: 1; */
 }
 
 @keyframes scroll_2 {
@@ -246,6 +247,7 @@
   color: var(--blackText);
   margin-right: 4px;
   margin-left: 6px;
+  z-index: 1;
 }
 
 @keyframes bounce {
@@ -522,9 +524,13 @@
     width: 40px;
     height: 40px;
   }
+
+  .learn-more-bottom-container {
+    height: fit-content;
+  }
 }
 
-@media screen and (max-height: 755px) {
+@media screen and (max-height: 755px) and (max-width: 882px) {
   .waitlist-screen-with-bottom {
     height: fit-content;
   }

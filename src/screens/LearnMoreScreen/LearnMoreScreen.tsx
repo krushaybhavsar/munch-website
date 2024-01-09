@@ -1,6 +1,9 @@
 import React from "react";
 import "./LearnMoreScreen.css";
-import { WaveFooter } from "../../components/WaveFooter/WaveFooter";
+import {
+  WaveFooterUp,
+  WaveFooterDown,
+} from "../../components/WaveFooter/WaveFooter";
 import LearnMoreDetailSection from "../../components/LearnMoreDetailSection/LearnMoreDetailSection";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import useWindowDimensions from "../../utils/useWindowDimensions";
@@ -68,10 +71,20 @@ const LearnMoreScreen = (props: LearnMoreScreenProps) => {
 
   return (
     <div className="learn-more-screen" ref={props.containerRef}>
-      <WaveFooter
+      {screenWidth < 975 && (
+        <WaveFooterUp
+          style={{
+            position: "absolute",
+            top: -47,
+            left: 0,
+            right: 0,
+          }}
+        />
+      )}
+      <WaveFooterDown
         style={{
           position: "absolute",
-          top: -2,
+          top: -1,
           left: 0,
           right: 0,
         }}
