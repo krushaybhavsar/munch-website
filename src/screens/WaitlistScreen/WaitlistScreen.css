@@ -370,7 +370,8 @@
 @media screen and (max-width: 882px) {
 
   .waitlist-screen-with-bottom {
-    height: fit-content;
+    height: 100vh;
+    /* height: min-content; */
   }
 
   .waitlist-screen {
@@ -520,5 +521,11 @@
   .waitlist__logo-container.top>.waitlist__logo.top {
     width: 40px;
     height: 40px;
+  }
+}
+
+@media screen and (max-height: 755px) {
+  .waitlist-screen-with-bottom {
+    height: fit-content;
   }
 }
