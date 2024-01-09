@@ -235,7 +235,7 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
               <h3 className="waitlist-description">
                 Tired of paying crazy delivery fees on DoorDash? 
                 Is cooking too much of a hassle?{" "}
-                <b >We get it. </b>
+                <b style ={{whiteSpace: "nowrap"}}>We get it. </b>
                 <br/>
                 {/* <br/>
                 <br/> */}

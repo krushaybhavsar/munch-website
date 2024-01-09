@@ -57,7 +57,7 @@
 
 .learn-more-detail-section-subtitle {
   font-family: 'CircularStd', sans-serif;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 24px;
   color: var(--blackText);
   text-align: start;
@@ -121,7 +121,7 @@
 
   .learn-more-detail-section-subtitle {
     text-align: center;
-    font-size: 2rem;
+    font-size: 26px;
   }
 
   .learn-more-detail-section-body {
