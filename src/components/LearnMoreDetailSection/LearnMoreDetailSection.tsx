@@ -6,7 +6,8 @@ type LearnMoreDetailSectionProps = {
   title: string;
   subtitle?: string;
   body: string;
-};
+  bold?: string;
+}
 
 const LearnMoreDetailSection = (props: LearnMoreDetailSectionProps) => {
   const getSectionImage = (mockupNumber: number) => {
@@ -34,16 +35,26 @@ const LearnMoreDetailSection = (props: LearnMoreDetailSectionProps) => {
     }
   };
 
-  const addLineBreak = (str: string) => {
-    return str.split("\\n").map((item, key) => {
-      return (
-        <span key={key}>
-          {item}
-          <br />
-        </span>
-      );
+  const addLineBreak = ({body, bold}: {body: string, bold?: string}) => {
+    return body.split("\\n").map((item, key, arr) => {
+      if (key < arr.length - 1) {
+        return (
+          <span key={key}>
+            {item}
+            <br />
+          </span>
+        );
+      } else {
+        return (
+          <span key={key}>
+            {item}{" "}
+            <b>{bold}</b>
+            <br/>
+          </span>
+        )
+      }
     });
-  };
+  }
 
   return (
     <div
@@ -69,7 +80,7 @@ const LearnMoreDetailSection = (props: LearnMoreDetailSectionProps) => {
           </div>
         )}
         <div className="learn-more-detail-section-body">
-          {addLineBreak(props.body)}
+          {addLineBreak({body: props.body, bold: props.bold})}
         </div>
       </div>
 
