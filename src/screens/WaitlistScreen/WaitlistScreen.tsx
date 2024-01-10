@@ -229,13 +229,10 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
             {getRightContent("top")}
             <div className="waitlist__left-content">
               {getLogoContainer("left")}
-              <h2 className="waitlist-title">
-                Experience campus food like never before.
-              </h2>
+              <h2 className="waitlist-title">Stop paying for food delivery.</h2>
               <h3 className="waitlist-description">
-                Tired of paying crazy delivery fees on DoorDash? Is cooking too
-                much of a hassle?{" "}
-                <b style={{ whiteSpace: "nowrap" }}>We get it. </b>
+                We're over it and you should be too.{" "}
+                {/* <b style ={{whiteSpace: "nowrap"}}>We get it. </b> */}
                 <br />
                 {/* <br/>
                 <br/> */}
@@ -246,7 +243,7 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
                   className="waitlist__learn-more-desc noselect"
                   onClick={() => scrollToSection(learnMoreRef)}
                 >
-                  Learn more?
+                  Learn more{""}
                   <img
                     alt="arrow-right"
                     className="waitlist__learn-more__arrow"
@@ -255,7 +252,13 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
                 </a>
               </h3>
               <div className="waitlist__right-content__form">
-                <h2 className="waitlist__form-title">Join the waitlist</h2>
+                {/* <h2 className="waitlist__form-title" style={{marginBottom: "0px"}}>Want 10% off your first meal? </h2>  */}
+                <h2
+                  className="waitlist__form-title"
+                  style={{ whiteSpace: "nowrap" }}
+                >
+                  Join the waitlist.
+                </h2>
                 <form>
                   <input
                     type="email"

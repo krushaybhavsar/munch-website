@@ -85,8 +85,8 @@
   font-family: 'CircularStd', sans-serif;
   font-weight: 700;
   font-size: 2.75rem;
-  color: var(--blackText);
-  margin-bottom: 10px;
+  color: var(--blackText);  
+  margin-bottom: 0px;
   width: 100%;
 }
 
@@ -436,7 +436,7 @@
 
   .waitlist__right-img {
     width: 100%;
-    max-width: 300px;
+    max-width: 350px;
     margin-bottom: 10px;
   }
 
@@ -481,7 +481,7 @@
 
   .waitlist__right-img {
     width: 100%;
-    max-width: 200px;
+    max-width: 250px;
     margin-bottom: 10px;
   }
 

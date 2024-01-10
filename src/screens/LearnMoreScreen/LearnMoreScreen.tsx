@@ -90,7 +90,7 @@ const LearnMoreScreen = (props: LearnMoreScreenProps) => {
         }}
       />
       <h1 className="learn-more-screen-title">
-        {"The one-stop hub for all your stomach's needs."}
+        {"The one-stop hub for all your inner foodie's needs."}
       </h1>
 
       {screenWidth > 975 ? (
@@ -125,7 +125,8 @@ const LearnMoreScreen = (props: LearnMoreScreenProps) => {
           detailIndex={0}
           title="Free delivery from local restaurants."
           subtitle="No BS fees. Ever."
-          body="Our flipped delivery model ensures that the price of the dish is the price you pay. How does it work? Local restaurants list meals along with designated drop-off locations and specified time windows for you to conveniently pick them up. This allows delivery costs to be split amongst customers."
+          body="How does it work? Affiliated restaurants list meals and popular locations across campus for you to conveniently pick them up. This allows delivery costs to be divided among multiple customers, while the remaining cost is offsetted with affiliate marketing."
+          bold="We call it mealpooling."
         />
         <LearnMoreDetailSection
           detailIndex={1}
