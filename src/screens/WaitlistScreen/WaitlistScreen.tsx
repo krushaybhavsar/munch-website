@@ -22,7 +22,7 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
   const [referralCode, setReferralCode] = useState<string>("");
-  const [captchaDone, setCaptchaDone] = useState<boolean>(false);
+  const [captchaDone, setCaptchaDone] = useState<boolean>(true);
   const [loadingDescription, setLoadingDescription] = useState<string>(
     "Adding you to the waitlist..."
   );
@@ -96,13 +96,13 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    if (!captchaDone) {
-      handleError(
-        "reCAPTCHA failed to load.",
-        "reCAPTCHA failed to load! Please refresh the page and try again."
-      );
-      return;
-    }
+    // if (!captchaDone) {
+    //   handleError(
+    //     "reCAPTCHA failed to load.",
+    //     "reCAPTCHA failed to load! Please refresh the page and try again."
+    //   );
+    //   return;
+    // }
     try {
       if (isValidForm()) {
         setLoading(true);
@@ -233,13 +233,15 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
                 Experience campus food like never before.
               </h2>
               <h3 className="waitlist-description">
-                Tired of paying crazy delivery fees on DoorDash? 
-                Is cooking too much of a hassle?{" "}
-                <b style ={{whiteSpace: "nowrap"}}>We get it. </b>
-                <br/>
+                Tired of paying crazy delivery fees on DoorDash? Is cooking too
+                much of a hassle?{" "}
+                <b style={{ whiteSpace: "nowrap" }}>We get it. </b>
+                <br />
                 {/* <br/>
                 <br/> */}
-                <p className="waitlist-we-get-it">That's why we created <b>Munch</b>.{" "}</p>
+                <p className="waitlist-we-get-it">
+                  That's why we created <b>Munch</b>.{" "}
+                </p>
                 <a
                   className="waitlist__learn-more-desc noselect"
                   onClick={() => scrollToSection(learnMoreRef)}

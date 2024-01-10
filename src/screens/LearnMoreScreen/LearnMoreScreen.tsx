@@ -125,7 +125,7 @@ const LearnMoreScreen = (props: LearnMoreScreenProps) => {
           detailIndex={0}
           title="Free delivery from local restaurants."
           subtitle="No BS fees. Ever."
-          body="Our flipped delivery model ensures that the price of the dish is the price you pay. How does it work? Local restaurants list meals along with designated drop-off locations and specified time windows for you to conveniently pick them up."
+          body="Our flipped delivery model ensures that the price of the dish is the price you pay. How does it work? Local restaurants list meals along with designated drop-off locations and specified time windows for you to conveniently pick them up. This allows delivery costs to be split amongst customers."
         />
         <LearnMoreDetailSection
           detailIndex={1}
