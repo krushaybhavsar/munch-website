@@ -94,14 +94,19 @@ export const getIndexInQueue = async (
   }
 };
 
-export const getReferralNum = async (uid: string): Promise<number> => {
+export const getReferralNum = async (
+  uid: string
+): Promise<{ userEmail: string; refNum: number }> => {
   const docRef = doc(db, "waitlistData", "queue", "userData", uid);
   const docSnap = await getDoc(docRef);
   if (docSnap && docSnap.exists() && docSnap.data().referrals !== undefined) {
-    return docSnap.data().referrals.length;
+    return {
+      userEmail: docSnap.data().email,
+      refNum: docSnap.data().referrals.length,
+    };
   } else {
     console.log("No such document: " + docRef?.path);
-    return -1;
+    return { userEmail: "", refNum: -1 };
   }
 };
 

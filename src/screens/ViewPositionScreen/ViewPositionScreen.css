@@ -9,6 +9,52 @@
   overflow-x: hidden;
   filter: blur(0);
   transition: all 0.4s ease;
+  position: relative;
+}
+
+.email-info-left,
+.vps-back-arrow-btn {
+  position: absolute;
+  top: 32px;
+  left: 42px;
+  display: flex;
+  flex-direction: row;
+  height: fit-content;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: none;
+  border: none;
+  outline: none;
+  margin-left: 0;
+}
+
+.email-info-left {
+  left: auto;
+  right: 42px;
+}
+
+.vps-back-arrow-img {
+  width: 24px;
+  height: 24px;
+  transform: rotate(180deg);
+  transition: all 0.2s ease;
+}
+
+.vps-back-arrow-btn:hover>.vps-back-arrow-img {
+  margin-right: 4px;
+  margin-left: -4px;
+}
+
+.vps-back-arrow-btn>p {
+  font-size: 1.2rem;
+  font-weight: 400;
+  font-family: 'CircularStd', sans-serif;
+  color: var(--blackText);
+  margin-left: 8px;
+  margin-bottom: 0;
 }
 
 .vps-header-image {
@@ -273,5 +319,12 @@
 
   .vps-position-container__position-text {
     font-size: 3.5rem !important;
+  }
+
+  .vps-back-arrow-btn {
+    bottom: 24px;
+    top: auto;
+    right: auto;
+    left: auto;
   }
 }

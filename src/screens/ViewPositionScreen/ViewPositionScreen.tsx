@@ -37,6 +37,7 @@ const ViewPositionScreen = (props: ViewPositionScreenProps) => {
   const [numOfReferrals, setNumOfReferrals] = useState<number>(0);
   const [uid, setUid] = useState<string>("");
   const [referralURL, setReferralURL] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const { width } = useWindowDimensions();
 
   const shareTitle = "Join the Munch waitlist! 🍪";
@@ -74,13 +75,14 @@ const ViewPositionScreen = (props: ViewPositionScreenProps) => {
             setQueuePosition(res + 1);
             getReferralNum(userDataDoc)
               .then((res) => {
-                if (res !== -1) {
+                if (res.refNum !== -1 && res.userEmail !== "") {
                   logAnalyticsEvent("vps_data_retrieved", {
                     uid: userDataDoc,
                     dataRequested: "num_of_referrals",
                     message: "Successfully retrieved number of referrals.",
                   });
-                  setNumOfReferrals(res);
+                  setEmail(res.userEmail);
+                  setNumOfReferrals(res.refNum);
                   setLoading(false);
                 } else {
                   handleError(
@@ -129,6 +131,24 @@ const ViewPositionScreen = (props: ViewPositionScreenProps) => {
         style={loading ? { filter: "blur(3px)" } : {}}
       >
         {getLogoContainer("top")}
+        <button
+          className="vps-back-arrow-btn noselect"
+          onClick={() => {
+            localStorage.removeItem("userDataDoc");
+            window.location.reload();
+          }}
+        >
+          <img
+            alt="back-arrow"
+            className="vps-back-arrow-img"
+            src={require("../../assets/arrow-right.png")}
+          />
+          <p>{"Home Screen"}</p>
+        </button>
+
+        {/* <div className="email-info-left">
+          <p>{email}</p>
+        </div> */}
         <img
           alt="background-design"
           className="vps-header-image"
