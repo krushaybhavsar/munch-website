@@ -1,7 +1,9 @@
 import React from "react";
 import "./OrderScreen.css";
 
-const OrderScreen = () => {
+type OrderScreenProps = {};
+
+const OrderScreen = (props: OrderScreenProps) => {
   return <div>OrderScreen</div>;
 };
 

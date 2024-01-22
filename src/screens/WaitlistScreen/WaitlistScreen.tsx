@@ -11,6 +11,7 @@ import { CollegeEmailSuffixes, ToastInfo } from "../../types";
 import CustomModal from "../../components/CustomModal/CustomModal";
 import LoadingModalContent from "../../components/CustomModal/LoadingModalContent/LoadingModalContent";
 import LearnMoreScreen from "../LearnMoreScreen/LearnMoreScreen";
+import { useNavigate } from "react-router-dom";
 
 type WaitlistScreenProps = {
   setToastMessage: React.Dispatch<React.SetStateAction<ToastInfo>>;
@@ -28,6 +29,7 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
   );
 
   const learnMoreRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   const scrollToSection = (containerRef: React.RefObject<HTMLDivElement>) => {
     if (!containerRef.current) {
@@ -149,6 +151,7 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
               res.uid !== ""
             ) {
               localStorage.setItem("userDataDoc", res.uid);
+              // navigate("/position");
               window.location.reload();
             }
           })

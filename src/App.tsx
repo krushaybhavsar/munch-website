@@ -7,8 +7,9 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import ViewPositionScreen from "./screens/ViewPositionScreen/ViewPositionScreen";
 import { ToastInfo } from "./types";
 import { CustomToast } from "./components/CustomToast/CustomToast";
-import PrivateRoutes from "./components/PrivateRoutes";
 import OrderScreen from "./screens/OrderScreen/OrderScreen";
+import ProtectedRoute from "./components/ProtectedRoute";
+import LoadingScreen from "./screens/LoadingScreen/LoadingScreen";
 
 function App() {
   const [userDataDoc, setUserDataDoc] = useState<string | null>(null);
@@ -17,6 +18,7 @@ function App() {
   const [toastVisible, setToastVisible] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     signInAnonymously(auth)
       .then((userCredential) => {
         if (
@@ -33,8 +35,6 @@ function App() {
       });
   }, []);
 
-  const PROTECTED_ROUTES: string[] = ["/position", "/order"];
-
   return (
     <BrowserRouter>
       <CustomToast
@@ -46,23 +46,37 @@ function App() {
         <Route
           path="/"
           element={
-            !userDataDoc ? (
+            loading ? (
+              <LoadingScreen />
+            ) : !!userDataDoc ? (
+              <Navigate to="/position" />
+            ) : (
               <WaitlistScreen
                 setToastMessage={setToastMessage}
                 setToastVisible={setToastVisible}
               />
-            ) : (
-              <Navigate to="/position" />
             )
           }
         />
-        <PrivateRoutes paths={PROTECTED_ROUTES} userDataDoc={userDataDoc}>
-          <ViewPositionScreen
-            setToastMessage={setToastMessage}
-            setToastVisible={setToastVisible}
-          />
-          <OrderScreen />
-        </PrivateRoutes>
+        <Route
+          path="/position"
+          element={
+            <ProtectedRoute isAllowed={!!userDataDoc} loading={loading}>
+              <ViewPositionScreen
+                setToastMessage={setToastMessage}
+                setToastVisible={setToastVisible}
+              />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/order"
+          element={
+            <ProtectedRoute isAllowed={userDataDoc != null} loading={loading}>
+              <OrderScreen />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
