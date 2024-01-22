@@ -7,9 +7,11 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import ViewPositionScreen from "./screens/ViewPositionScreen/ViewPositionScreen";
 import { ToastInfo } from "./types";
 import { CustomToast } from "./components/CustomToast/CustomToast";
+import PrivateRoutes from "./components/PrivateRoutes";
+import OrderScreen from "./screens/OrderScreen/OrderScreen";
 
 function App() {
-  const [userDataDoc, setUserDataDoc] = useState<string>("");
+  const [userDataDoc, setUserDataDoc] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [toastMessage, setToastMessage] = useState<ToastInfo>();
   const [toastVisible, setToastVisible] = useState(false);
@@ -31,6 +33,8 @@ function App() {
       });
   }, []);
 
+  const PROTECTED_ROUTES: string[] = ["/position", "/order"];
+
   return (
     <BrowserRouter>
       <CustomToast
@@ -42,7 +46,7 @@ function App() {
         <Route
           path="/"
           element={
-            userDataDoc === "" ? (
+            !userDataDoc ? (
               <WaitlistScreen
                 setToastMessage={setToastMessage}
                 setToastVisible={setToastVisible}
@@ -52,19 +56,13 @@ function App() {
             )
           }
         />
-        <Route
-          path="/position"
-          element={
-            userDataDoc === "" ? (
-              <Navigate to="/" />
-            ) : (
-              <ViewPositionScreen
-                setToastMessage={setToastMessage}
-                setToastVisible={setToastVisible}
-              />
-            )
-          }
-        />
+        <PrivateRoutes paths={PROTECTED_ROUTES} userDataDoc={userDataDoc}>
+          <ViewPositionScreen
+            setToastMessage={setToastMessage}
+            setToastVisible={setToastVisible}
+          />
+          <OrderScreen />
+        </PrivateRoutes>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
