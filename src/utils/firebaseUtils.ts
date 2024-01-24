@@ -160,6 +160,18 @@ export const updateUserPositionByNum = async (
   }
 };
 
+export const isUserOffWaitlist = async (uid: string): Promise<boolean> => {
+  const docRef = doc(db, "waitlistData", "queue");
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const usersOffWaitlist = docSnap.data().usersOffWaitlist;
+    return usersOffWaitlist.includes(uid);
+  } else {
+    console.log("No such document: " + docRef.path);
+    return false;
+  }
+};
+
 export const logAnalyticsEvent = async (
   eventName: string,
   values: { [key: string]: string }

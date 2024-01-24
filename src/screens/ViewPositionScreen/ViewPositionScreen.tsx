@@ -26,13 +26,15 @@ import {
   TelegramIcon,
 } from "react-share";
 import useWindowDimensions from "../../utils/useWindowDimensions";
+import LoadingScreen from "../LoadingScreen/LoadingScreen";
 type ViewPositionScreenProps = {
   setToastMessage: React.Dispatch<React.SetStateAction<ToastInfo>>;
   setToastVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  isOffWaitlist: boolean;
 };
 
 const ViewPositionScreen = (props: ViewPositionScreenProps) => {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [queuePosition, setQueuePosition] = useState<number>(0);
   const [numOfReferrals, setNumOfReferrals] = useState<number>(0);
   const [uid, setUid] = useState<string>("");
@@ -59,55 +61,63 @@ const ViewPositionScreen = (props: ViewPositionScreenProps) => {
   };
 
   useEffect(() => {
-    setLoading(true);
-    const userDataDoc = localStorage.getItem("userDataDoc");
-    if (userDataDoc !== null && userDataDoc !== "") {
-      setUid(userDataDoc);
-      setReferralURL(window.location.origin + "?ref=" + userDataDoc);
-      getIndexInQueue(userDataDoc)
-        .then((res) => {
-          if (res !== -1) {
-            logAnalyticsEvent("vps_data_retrieved", {
-              uid: userDataDoc,
-              dataRequested: "queue_position",
-              message: "Successfully retrieved queue position.",
-            });
-            setQueuePosition(res + 1);
-            getReferralNum(userDataDoc)
-              .then((res) => {
-                if (res.refNum !== -1 && res.userEmail !== "") {
-                  logAnalyticsEvent("vps_data_retrieved", {
-                    uid: userDataDoc,
-                    dataRequested: "num_of_referrals",
-                    message: "Successfully retrieved number of referrals.",
-                  });
-                  setEmail(res.userEmail);
-                  setNumOfReferrals(res.refNum);
-                  setLoading(false);
-                } else {
+    if (props.isOffWaitlist) {
+      window.location.href = "/order";
+    } else {
+      setLoading(true);
+      const userDataDoc = localStorage.getItem("userDataDoc");
+      if (userDataDoc !== null && userDataDoc !== "") {
+        setUid(userDataDoc);
+        setReferralURL(window.location.origin + "?ref=" + userDataDoc);
+        getIndexInQueue(userDataDoc)
+          .then((res) => {
+            if (res !== -1) {
+              logAnalyticsEvent("vps_data_retrieved", {
+                uid: userDataDoc,
+                dataRequested: "queue_position",
+                message: "Successfully retrieved queue position.",
+              });
+              setQueuePosition(res + 1);
+              getReferralNum(userDataDoc)
+                .then((res) => {
+                  if (res.refNum !== -1 && res.userEmail !== "") {
+                    logAnalyticsEvent("vps_data_retrieved", {
+                      uid: userDataDoc,
+                      dataRequested: "num_of_referrals",
+                      message: "Successfully retrieved number of referrals.",
+                    });
+                    setEmail(res.userEmail);
+                    setNumOfReferrals(res.refNum);
+                    setLoading(false);
+                  } else {
+                    handleError(
+                      "Failed to get referral number (res === -1).",
+                      "Failed to get referral number!",
+                      userDataDoc
+                    );
+                  }
+                })
+                .catch((err: any) => {
                   handleError(
-                    "Failed to get referral number (res === -1).",
-                    "Failed to get referral number!",
+                    err,
+                    "Error getting referral number!",
                     userDataDoc
                   );
-                }
-              })
-              .catch((err: any) => {
-                handleError(err, "Error getting referral number!", userDataDoc);
-              });
-          } else {
-            localStorage.removeItem("userDataDoc");
-            handleError(
-              "User queue index returned -1.",
-              "Something went wrong!",
-              userDataDoc
-            );
-            window.location.reload();
-          }
-        })
-        .catch((err) => {
-          handleError(err, "Error getting position in queue!", userDataDoc);
-        });
+                });
+            } else {
+              localStorage.removeItem("userDataDoc");
+              handleError(
+                "User queue index returned -1.",
+                "Something went wrong!",
+                userDataDoc
+              );
+              window.location.reload();
+            }
+          })
+          .catch((err) => {
+            handleError(err, "Error getting position in queue!", userDataDoc);
+          });
+      }
     }
   }, []);
 
@@ -284,7 +294,7 @@ const ViewPositionScreen = (props: ViewPositionScreenProps) => {
           </div>
         </div>
       </div>
-      <CustomModal
+      {/* <CustomModal
         modalContent={
           <LoadingModalContent
             titleMessage={"Hang Tight!"}
@@ -293,7 +303,8 @@ const ViewPositionScreen = (props: ViewPositionScreenProps) => {
         }
         setShow={setLoading}
         show={loading}
-      />
+      /> */}
+      <LoadingScreen isLoading={loading} />
     </>
   );
 };

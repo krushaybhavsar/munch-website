@@ -12,10 +12,12 @@ import CustomModal from "../../components/CustomModal/CustomModal";
 import LoadingModalContent from "../../components/CustomModal/LoadingModalContent/LoadingModalContent";
 import LearnMoreScreen from "../LearnMoreScreen/LearnMoreScreen";
 import { useNavigate } from "react-router-dom";
+import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
 type WaitlistScreenProps = {
   setToastMessage: React.Dispatch<React.SetStateAction<ToastInfo>>;
   setToastVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  isOffWaitlist: boolean;
 };
 
 const WaitlistScreen = (props: WaitlistScreenProps) => {
@@ -151,7 +153,8 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
               res.uid !== ""
             ) {
               localStorage.setItem("userDataDoc", res.uid);
-              // navigate("/position");
+              console.log("is off waitlist: " + props.isOffWaitlist);
+              // navigate(props.isOffWaitlist ? "/order" : "/position");
               window.location.reload();
             }
           })
@@ -308,7 +311,7 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
         </div>
         <LearnMoreScreen containerRef={learnMoreRef} />
       </div>
-      <CustomModal
+      {/* <CustomModal
         modalContent={
           <LoadingModalContent
             titleMessage={"Hang Tight!"}
@@ -317,7 +320,8 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
         }
         setShow={setLoading}
         show={loading}
-      />
+      /> */}
+      <LoadingScreen isLoading={loading} />
     </>
   );
 };

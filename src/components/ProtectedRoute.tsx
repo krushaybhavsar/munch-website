@@ -17,7 +17,7 @@ const ProtectedRoute = (props: ProtectedRouteProps) => {
   }
 
   if (props.loading) {
-    return <LoadingScreen />;
+    return <LoadingScreen isLoading={props.loading} />;
   }
 
   return props.children ? props.children : <Outlet />;

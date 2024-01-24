@@ -10,22 +10,31 @@ import { CustomToast } from "./components/CustomToast/CustomToast";
 import OrderScreen from "./screens/OrderScreen/OrderScreen";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LoadingScreen from "./screens/LoadingScreen/LoadingScreen";
+import { isUserOffWaitlist } from "./utils/firebaseUtils";
 
 function App() {
   const [userDataDoc, setUserDataDoc] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [toastMessage, setToastMessage] = useState<ToastInfo>();
   const [toastVisible, setToastVisible] = useState(false);
+  const [isOffWaitlist, setIsOffWaitlist] = useState<boolean>(false);
 
   useEffect(() => {
     setLoading(true);
     signInAnonymously(auth)
       .then((userCredential) => {
-        if (
-          localStorage.getItem("userDataDoc") !== null &&
-          localStorage.getItem("userDataDoc") !== ""
-        ) {
-          setUserDataDoc(localStorage.getItem("userDataDoc") as string);
+        const localUDDoc = localStorage.getItem("userDataDoc");
+        if (localUDDoc !== null && localUDDoc !== "") {
+          isUserOffWaitlist(localUDDoc)
+            .then((isOffWaitlist) => {
+              setIsOffWaitlist(isOffWaitlist);
+              setUserDataDoc(localUDDoc as string);
+            })
+            .catch((error) => {
+              console.log(error);
+              setUserDataDoc(localUDDoc as string);
+              setLoading(false);
+            });
         }
         setLoading(false);
       })
@@ -46,15 +55,21 @@ function App() {
         <Route
           path="/"
           element={
-            loading ? (
-              <LoadingScreen />
-            ) : !!userDataDoc ? (
-              <Navigate to="/position" />
+            !!userDataDoc ? (
+              isOffWaitlist ? (
+                <Navigate to="/order" replace={true} />
+              ) : (
+                <Navigate to="/position" replace={true} />
+              )
             ) : (
-              <WaitlistScreen
-                setToastMessage={setToastMessage}
-                setToastVisible={setToastVisible}
-              />
+              <>
+                <WaitlistScreen
+                  setToastMessage={setToastMessage}
+                  setToastVisible={setToastVisible}
+                  isOffWaitlist={isOffWaitlist}
+                />
+                <LoadingScreen isLoading={loading} />
+              </>
             )
           }
         />
@@ -65,6 +80,7 @@ function App() {
               <ViewPositionScreen
                 setToastMessage={setToastMessage}
                 setToastVisible={setToastVisible}
+                isOffWaitlist={isOffWaitlist}
               />
             </ProtectedRoute>
           }
@@ -72,7 +88,10 @@ function App() {
         <Route
           path="/order"
           element={
-            <ProtectedRoute isAllowed={userDataDoc != null} loading={loading}>
+            <ProtectedRoute
+              isAllowed={userDataDoc != null && isOffWaitlist}
+              loading={loading}
+            >
               <OrderScreen />
             </ProtectedRoute>
           }
