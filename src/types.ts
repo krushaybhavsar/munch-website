@@ -16,12 +16,12 @@ export type ListingInfo = {
 };
 
 export type RestaurantMenuItem = {
-    restaurantId: string,
-    itemId: string,
-    name: string,
-    basePrice: number,
-    options?: MenuOption[]
-}
+  restaurantId: string;
+  itemId: string;
+  name: string;
+  basePrice: number;
+  options: MenuOption[];
+};
 
 export type RestaurantMenu = {
   id: string;
