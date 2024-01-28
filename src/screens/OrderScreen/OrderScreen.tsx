@@ -10,6 +10,7 @@ import {
 import CheckoutButton from "../CheckoutButton/CheckoutButton";
 import LogoContainer from "../../components/LogoContainer/LogoContainer";
 import MenuStep from "../../components/MenuStep/MenuStep";
+import CountDownTimer from "../../components/CountDownTimer/CountDownTimer";
 
 type OrderScreenProps = {};
 
@@ -28,7 +29,7 @@ const OrderScreen = (props: OrderScreenProps) => {
     // dummy data
     setTimeout(() => {
       setListingInfo({
-        orderEnd: new Date("2020-04-20T12:00:00"),
+        orderEnd: new Date("2024-02-02T12:00:00"),
         pickupStart: new Date("2020-04-20T12:30:00"),
         pickupEnd: new Date("2020-04-20T13:00:00"),
         orderStart: new Date("2020-04-20T12:00:00"),
@@ -191,10 +192,6 @@ const OrderScreen = (props: OrderScreenProps) => {
     }, 1000);
   }, []);
 
-  useEffect(() => {
-    console.log(order);
-  }, [order]);
-
   const handleSelectedMenuItem = (menuItem: RestaurantMenuItem) => {
     const orderMenuItem = order.find((orderMenuItem) => {
       return orderMenuItem.itemId === menuItem.itemId;
@@ -351,6 +348,66 @@ const OrderScreen = (props: OrderScreenProps) => {
             {restaurantName ? restaurantName : ""}
           </h1>
         </div>
+        <div className="os-content__listing-info-container">
+          <div className="os-content__listing-info__item">
+            <p className="os-content__listing-info__item__title">
+              <img
+                alt="location-pin"
+                className="os-content__listing-info__item__value__icon"
+                src={require("../../assets/map-pin-icon.png")}
+              />
+              {"Pickup Location"}
+            </p>
+
+            <p className="os-content__listing-info__item__value">
+              {listingInfo ? listingInfo.pickupLocation : ""}
+            </p>
+          </div>
+          <div className="os-content__listing-info__item">
+            <p className="os-content__listing-info__item__title">
+              <img
+                alt="timer-icon"
+                className="os-content__listing-info__item__value__icon"
+                src={require("../../assets/clock-icon.png")}
+              />
+              {"Orders close in"}
+            </p>
+            <p className="os-content__listing-info__item__value">
+              {listingInfo && (
+                <CountDownTimer
+                  eventTime={listingInfo.orderEnd.getTime() / 1000}
+                />
+              )}
+            </p>
+          </div>
+          <div className="os-content__listing-info__item">
+            <p className="os-content__listing-info__item__title">
+              <img
+                alt="calendar-icon"
+                className="os-content__listing-info__item__value__icon"
+                src={require("../../assets/calendar-icon.png")}
+              />
+              {"Pickup between"}
+            </p>
+            <p className="os-content__listing-info__item__value">
+              {listingInfo &&
+                listingInfo.pickupStart.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }) +
+                  " - " +
+                  listingInfo.pickupEnd.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }) +
+                  ", " +
+                  listingInfo.pickupStart.toLocaleDateString([], {
+                    month: "long",
+                    day: "numeric",
+                  })}
+            </p>
+          </div>
+        </div>
         <div className="os-content__menu-steps-container">
           <MenuStep
             stepNumber={1}
@@ -364,7 +421,7 @@ const OrderScreen = (props: OrderScreenProps) => {
                     className={
                       "os-content__menu-item noselect" +
                       (order.find(
-                        (orderItem) => orderItem.itemId == menuItem.itemId
+                        (orderItem) => orderItem.itemId === menuItem.itemId
                       )
                         ? " selected"
                         : "")

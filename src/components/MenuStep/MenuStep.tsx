@@ -19,9 +19,7 @@ const MenuStep = (props: MenuStepProps) => {
     >
       <div className="menu-step-top">
         <div className="menu-step-info">
-          {"Step " +
-            props.stepNumber +
-            (props.stepDescription ? " - " + props.stepDescription : "")}
+          {props.stepDescription ? "" + props.stepDescription : ""}
           <u
             style={{
               textDecorationLine: "underline",

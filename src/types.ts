@@ -7,12 +7,12 @@ export type ToastInfo =
   | undefined;
 
 export type ListingInfo = {
-  orderEnd: Date;
   orderStart: Date;
+  orderEnd: Date;
   pickupStart: Date;
   pickupEnd: Date;
-  restaurantId: string;
   pickupLocation: string;
+  restaurantId: string;
 };
 
 export type RestaurantMenuItem = {
@@ -37,4 +37,42 @@ export type MenuOption = {
   optionId: string;
   name: string;
   price: number;
+};
+
+export const ResidenceHalls = [
+  "Armstrong",
+  "Brown",
+  "Caldwell",
+  "Cloudman",
+  "Folk",
+  "Freeman",
+  "Glenn",
+  "Hanson",
+  "Harrison",
+  "Hopkins",
+  "Howell",
+  "Matheson",
+  "Montag",
+  "Perry",
+  "Smith",
+  "Undergraduate Living Center",
+  "Woodruff",
+  "Field",
+  "Other",
+];
+
+export const ClassStanding = [
+  "Freshman",
+  "Sophomore",
+  "Junior",
+  "Senior",
+  "Graduate",
+];
+
+export type UserData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  classStanding: string;
+  residenceHall: string;
 };
