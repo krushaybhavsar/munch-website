@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./OrderScreen.css";
-import { RestaurantMenu, RestaurantMenuItem, MenuOption } from "../../types";
+import {
+  RestaurantMenu,
+  RestaurantMenuItem,
+  MenuOption,
+  Order,
+  ListingInfo,
+} from "../../types";
 import CheckoutButton from "../CheckoutButton/CheckoutButton";
 import LogoContainer from "../../components/LogoContainer/LogoContainer";
 import MenuStep from "../../components/MenuStep/MenuStep";
@@ -12,15 +18,23 @@ const OrderScreen = (props: OrderScreenProps) => {
   const [restaurantName, setRestaurantName] = useState<string | undefined>(
     undefined
   );
-  const [selectedMenuItem, setSelectedMenuItem] = useState<
-    RestaurantMenuItem | undefined
-  >(undefined);
-  const [selectedOptions, setSelectedOptions] = useState<MenuOption[]>([]);
+  const [order, setOrder] = useState<RestaurantMenuItem[]>([]);
+  const [listingInfo, setListingInfo] = useState<ListingInfo | undefined>(
+    undefined
+  );
   const [menuLoaded, setMenuLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     // dummy data
     setTimeout(() => {
+      setListingInfo({
+        orderEnd: new Date("2020-04-20T12:00:00"),
+        pickupStart: new Date("2020-04-20T12:30:00"),
+        pickupEnd: new Date("2020-04-20T13:00:00"),
+        orderStart: new Date("2020-04-20T12:00:00"),
+        restaurantId: "chipotle",
+        pickupLocation: "1234 Main St, San Jose, CA 95112",
+      });
       setRestaurantName("Chipotle");
       setMenu({
         id: "chipotle",
@@ -32,42 +46,42 @@ const OrderScreen = (props: OrderScreenProps) => {
             basePrice: 8.99,
             options: [
               {
-                optionId: "1",
+                optionId: "11",
                 name: "Rice",
                 price: 0,
               },
               {
-                optionId: "2",
+                optionId: "12",
                 name: "Beans",
                 price: 0,
               },
               {
-                optionId: "3",
+                optionId: "13",
                 name: "Lettuce",
                 price: 0,
               },
               {
-                optionId: "4",
+                optionId: "14",
                 name: "Salsa",
                 price: 0,
               },
               {
-                optionId: "5",
+                optionId: "15",
                 name: "Guacamole",
                 price: 0.99,
               },
               {
-                optionId: "6",
+                optionId: "16",
                 name: "Cheese",
                 price: 0,
               },
               {
-                optionId: "7",
+                optionId: "17",
                 name: "Sour Cream",
                 price: 0,
               },
               {
-                optionId: "8",
+                optionId: "18",
                 name: "Fajita Veggies",
                 price: 0,
               },
@@ -80,42 +94,42 @@ const OrderScreen = (props: OrderScreenProps) => {
             basePrice: 9.99,
             options: [
               {
-                optionId: "1",
+                optionId: "21",
                 name: "Rice",
                 price: 0,
               },
               {
-                optionId: "2",
+                optionId: "22",
                 name: "Beans",
                 price: 0,
               },
               {
-                optionId: "3",
+                optionId: "23",
                 name: "Chicken",
                 price: 0,
               },
               {
-                optionId: "4",
+                optionId: "24",
                 name: "Lettuce",
                 price: 0,
               },
               {
-                optionId: "5",
+                optionId: "25",
                 name: "Salsa",
                 price: 0,
               },
               {
-                optionId: "6",
+                optionId: "26",
                 name: "Guacamole",
                 price: 0.99,
               },
               {
-                optionId: "7",
+                optionId: "27",
                 name: "Cheese",
                 price: 0,
               },
               {
-                optionId: "8",
+                optionId: "28",
                 name: "Sour Cream",
                 price: 0,
               },
@@ -128,41 +142,48 @@ const OrderScreen = (props: OrderScreenProps) => {
             basePrice: 7.99,
             options: [
               {
-                optionId: "1",
+                optionId: "31",
                 name: "Rice",
                 price: 0,
               },
               {
-                optionId: "2",
+                optionId: "32",
                 name: "Beans",
                 price: 0,
               },
               {
-                optionId: "3",
+                optionId: "33",
                 name: "Lettuce",
                 price: 0,
               },
               {
-                optionId: "4",
+                optionId: "34",
                 name: "Salsa",
                 price: 0,
               },
               {
-                optionId: "5",
+                optionId: "35",
                 name: "Guacamole",
                 price: 0.99,
               },
               {
-                optionId: "6",
+                optionId: "36",
                 name: "Cheese",
                 price: 0,
               },
               {
-                optionId: "7",
+                optionId: "37",
                 name: "Sour Cream",
                 price: 0,
               },
             ],
+          },
+          {
+            itemId: "4",
+            restaurantId: "chipotle",
+            name: "Hibiscus Lemonade",
+            basePrice: 2.99,
+            options: [],
           },
         ],
       });
@@ -170,26 +191,112 @@ const OrderScreen = (props: OrderScreenProps) => {
     }, 1000);
   }, []);
 
-  const handleSelectedMenuItem = (menuItem: RestaurantMenuItem) => {
-    if (selectedMenuItem && selectedMenuItem.itemId === menuItem.itemId) {
-      setSelectedOptions([]);
-      setSelectedMenuItem(undefined);
-      return;
-    }
-    setSelectedOptions([]);
-    setSelectedMenuItem(menuItem);
-  };
+  useEffect(() => {
+    console.log(order);
+  }, [order]);
 
-  const handleSelectedOption = (option: MenuOption) => {
-    if (selectedOptions.includes(option)) {
-      setSelectedOptions(
-        selectedOptions.filter((selectedOption) => {
-          return selectedOption.optionId !== option.optionId;
+  const handleSelectedMenuItem = (menuItem: RestaurantMenuItem) => {
+    const orderMenuItem = order.find((orderMenuItem) => {
+      return orderMenuItem.itemId === menuItem.itemId;
+    });
+    if (orderMenuItem) {
+      // remove menuItem
+      setOrder(
+        order.filter((orderMenuItem) => {
+          return orderMenuItem.itemId !== menuItem.itemId;
         })
       );
       return;
     }
-    setSelectedOptions([...selectedOptions, option]);
+    const newMenuItem: RestaurantMenuItem = {
+      ...menuItem,
+      options: [],
+    };
+    setOrder([...order, newMenuItem]);
+  };
+
+  const handleSelectedOption = (
+    menuItem: RestaurantMenuItem,
+    option: MenuOption
+  ) => {
+    const orderMenuItem = order.find((orderMenuItem) => {
+      return orderMenuItem.itemId === menuItem.itemId;
+    });
+    if (!orderMenuItem) {
+      return;
+    }
+    const orderOption = orderMenuItem.options.find((orderOption) => {
+      return orderOption.optionId === option.optionId;
+    });
+    if (orderOption) {
+      // remove option
+      orderMenuItem.options = orderMenuItem.options.filter((orderOption) => {
+        return orderOption.optionId !== option.optionId;
+      });
+    } else {
+      // add option
+      orderMenuItem.options.push(option);
+    }
+    setOrder([...order]);
+  };
+
+  const optionIsSelected = (
+    menuItem: RestaurantMenuItem,
+    option: MenuOption
+  ) => {
+    // match by itemId and optionId
+    const orderMenuItem = order.find((orderMenuItem) => {
+      return orderMenuItem.itemId === menuItem.itemId;
+    });
+    if (!orderMenuItem) {
+      return false;
+    }
+    const orderOption = orderMenuItem.options.find((orderOption) => {
+      return orderOption.optionId === option.optionId;
+    });
+    if (!orderOption) {
+      return false;
+    }
+    return true;
+  };
+
+  const renderOptionsSection = (menuItem: RestaurantMenuItem) => {
+    return menuItem.options.map((option, index) => (
+      <div
+        className={
+          "os-content__menu-item option noselect" +
+          (optionIsSelected(menuItem, option) ? " selected" : "")
+        }
+        key={index}
+        onClick={() => handleSelectedOption(menuItem, option)}
+      >
+        <p className="os-content__menu-item__name">{option.name}</p>
+        {option.price > 0 && (
+          <p className="os-content__menu-item__price">
+            {"+ $" + option.price.toFixed(2)}
+          </p>
+        )}
+      </div>
+    ));
+  };
+
+  const calculateTotal = (): number => {
+    let total = 0;
+    order.forEach((menuItem) => {
+      total += menuItem.basePrice;
+      menuItem.options.forEach((option) => {
+        total += option.price;
+      });
+    });
+    return total;
+  };
+
+  const findMenuItemFromOrderItemId = (
+    orderItemId: string
+  ): RestaurantMenuItem | undefined => {
+    return menu?.menu.find((menuItem) => {
+      return menuItem.itemId === orderItemId;
+    });
   };
 
   return (
@@ -256,8 +363,9 @@ const OrderScreen = (props: OrderScreenProps) => {
                   <div
                     className={
                       "os-content__menu-item noselect" +
-                      (selectedMenuItem &&
-                      selectedMenuItem.itemId === menuItem.itemId
+                      (order.find(
+                        (orderItem) => orderItem.itemId == menuItem.itemId
+                      )
                         ? " selected"
                         : "")
                     }
@@ -274,88 +382,81 @@ const OrderScreen = (props: OrderScreenProps) => {
                 );
               })}
           </MenuStep>
-          <MenuStep
-            stepNumber={2}
-            stepDescription="Customize your dish"
-            enabled={menuLoaded && !!selectedMenuItem}
-            innerContainerStyle={{
-              flexWrap: "wrap",
-            }}
-          >
-            {menu &&
-              selectedMenuItem &&
-              selectedMenuItem.options.map((option, index) => {
-                return (
-                  <div
-                    className={
-                      "os-content__menu-item option noselect" +
-                      (selectedOptions.includes(option) ? " selected" : "")
-                    }
-                    key={index}
-                    onClick={() => handleSelectedOption(option)}
-                  >
-                    <p className="os-content__menu-item__name">{option.name}</p>
-                    {option.price > 0 && (
-                      <p className="os-content__menu-item__price">
-                        {"+ $" + option.price.toFixed(2)}
-                      </p>
-                    )}
-                  </div>
-                );
-              })}
-          </MenuStep>
+
+          {menu &&
+            order.map((orderItem, index) => (
+              <div key={orderItem.itemId} style={{ width: "100%" }}>
+                {menu &&
+                  findMenuItemFromOrderItemId(orderItem.itemId)!.options
+                    .length > 0 && (
+                    <MenuStep
+                      stepNumber={2}
+                      stepDescription={"Customize your "}
+                      boldedDescription={orderItem.name}
+                      enabled={menuLoaded}
+                      innerContainerStyle={{
+                        flexWrap: "wrap",
+                      }}
+                    >
+                      {renderOptionsSection(
+                        findMenuItemFromOrderItemId(orderItem.itemId)!
+                      )}
+                    </MenuStep>
+                  )}
+              </div>
+            ))}
 
           <MenuStep
             stepNumber={3}
             stepDescription="Review and Checkout"
-            enabled={
-              menuLoaded && !!selectedMenuItem && selectedOptions.length > 0
-            }
+            enabled={menuLoaded && order.length > 0}
             innerContainerStyle={{
               flexWrap: "wrap",
             }}
           >
-            {menu && selectedMenuItem && selectedOptions.length > 0 && (
+            {menu && order.length > 0 && (
               <div className="os-content__menu-review-container">
-                <div className="os-content__menu-review__header">
-                  <p className="os-content__menu-review__header__title">
-                    {selectedMenuItem.name}
-                  </p>
-                  <p className="os-content__menu-review__header__price">
-                    {"$" + selectedMenuItem.basePrice.toFixed(2)}
-                  </p>
-                </div>
-                <div className="os-content__menu-review__options">
-                  {selectedOptions.map((option, index) => {
-                    return (
-                      <div
-                        className="os-content__menu-review__option"
-                        key={index}
-                      >
-                        <p className="os-content__menu-review__option__name">
-                          •&nbsp;{option.name}
-                        </p>
-                        {option.price > 0 && (
-                          <p className="os-content__menu-review__option__price">
-                            +&nbsp;{"$" + option.price.toFixed(2)}
-                          </p>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
+                {order.map((menuItem) => (
+                  <div
+                    key={menuItem.itemId}
+                    style={{ width: "100%", margin: "4px 0" }}
+                  >
+                    <div className="os-content__menu-review__header">
+                      <p className="os-content__menu-review__header__title">
+                        {menuItem.name}
+                      </p>
+                      <p className="os-content__menu-review__header__price">
+                        {"$" + menuItem.basePrice.toFixed(2)}
+                      </p>
+                    </div>
+                    <div className="os-content__menu-review__options">
+                      {order.includes(menuItem) &&
+                        order[order.indexOf(menuItem)].options.map((option) => {
+                          return (
+                            <div
+                              className="os-content__menu-review__option"
+                              key={option.optionId}
+                            >
+                              <p className="os-content__menu-review__option__name">
+                                •&nbsp;{option.name}
+                              </p>
+                              {option.price > 0 && (
+                                <p className="os-content__menu-review__option__price">
+                                  +&nbsp;{"$" + option.price.toFixed(2)}
+                                </p>
+                              )}
+                            </div>
+                          );
+                        })}
+                    </div>
+                  </div>
+                ))}
                 <div className="os-content__menu-review__total">
                   <p className="os-content__menu-review__total__title">
-                    {"Total"}
+                    <b>{"TOTAL"}</b>
                   </p>
                   <p className="os-content__menu-review__total__price">
-                    {"$" +
-                      (
-                        selectedMenuItem.basePrice +
-                        selectedOptions.reduce((acc, option) => {
-                          return acc + option.price;
-                        }, 0)
-                      ).toFixed(2)}
+                    <b> {"$" + calculateTotal().toFixed(2)}</b>
                   </p>
                 </div>
                 <CheckoutButton />

@@ -62,6 +62,12 @@
   font: 'CircularStd', sans-serif;
   font-weight: 600;
   font-size: 2.5rem;
+  text-decoration: underline;
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-color: var(--primaryYellow);
+  text-decoration-thickness: 4px;
+  text-underline-offset: 6px;
 }
 
 .os-content__menu-item {
@@ -132,7 +138,6 @@
   align-items: flex-start;
   justify-content: flex-start;
   width: 100%;
-  margin-top: 6px;
   margin-left: 16px;
 }
 
@@ -141,7 +146,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: calc(100% - 8px);
+  width: calc(100% - 16px);
 }
 
 .os-content__menu-review__total {

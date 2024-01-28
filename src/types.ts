@@ -12,6 +12,7 @@ export type ListingInfo = {
   pickupStart: Date;
   pickupEnd: Date;
   restaurantId: string;
+  pickupLocation: string;
 };
 
 export type RestaurantMenuItem = {
@@ -25,6 +26,11 @@ export type RestaurantMenuItem = {
 export type RestaurantMenu = {
   id: string;
   menu: RestaurantMenuItem[];
+};
+
+export type Order = {
+  orderId: string;
+  order: RestaurantMenuItem[];
 };
 
 export type MenuOption = {
