@@ -15,10 +15,11 @@ export type ListingInfo = {
 }
 
 export type RestaurantMenuItem = {
-    restaurantId: string
+    restaurantId: string,
+    stripeId: string,
     name: string,
     basePrice: number,
-    options: MenuOption[]
+    options?: MenuOption[]
 }
 
 export type RestaurantMenu = {
