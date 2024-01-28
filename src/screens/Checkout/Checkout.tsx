@@ -17,7 +17,7 @@ function Checkout({order} : {order : RestaurantMenuItem}) {
     if (stripe !== null) {
         const { error } = await stripe.redirectToCheckout({
             lineItems: [{
-                price: order.stripeId, // Replace with the ID of your price
+                price: order.itemId, // Replace with the ID of your price
                 quantity: 1,
             }],
             mode: 'payment',

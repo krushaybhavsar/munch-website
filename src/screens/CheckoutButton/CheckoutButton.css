@@ -1,0 +1,21 @@
+.order-checkout-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+  padding: 10px 0px;
+  background: var(--primaryYellow);
+  border-radius: 5px;
+  transition: all 0.2s ease;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 1rem;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0);
+}
+
+.order-checkout-button:hover {
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}

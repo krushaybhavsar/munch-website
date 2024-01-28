@@ -27,6 +27,7 @@ import {
 } from "react-share";
 import useWindowDimensions from "../../utils/useWindowDimensions";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
+import LogoContainer from "../../components/LogoContainer/LogoContainer";
 type ViewPositionScreenProps = {
   setToastMessage: React.Dispatch<React.SetStateAction<ToastInfo>>;
   setToastVisible: React.Dispatch<React.SetStateAction<boolean>>;
@@ -121,26 +122,13 @@ const ViewPositionScreen = (props: ViewPositionScreenProps) => {
     }
   }, []);
 
-  const getLogoContainer = (type: string) => {
-    return (
-      <div className={"vps_waitlist__logo-container " + type}>
-        <img
-          alt="munch-logo"
-          className={"vps_waitlist__logo " + type}
-          src={require("../../assets/munch-transparent-logo.png")}
-        />
-        <h1 className={"vps_waitlist__logo-text " + type}>munch.</h1>
-      </div>
-    );
-  };
-
   return (
     <>
       <div
         className="view-position-screen"
         style={loading ? { filter: "blur(3px)" } : {}}
       >
-        {getLogoContainer("top")}
+        <LogoContainer type="top" />
         <button
           className="vps-back-arrow-btn noselect"
           onClick={() => {

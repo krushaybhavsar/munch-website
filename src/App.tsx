@@ -44,9 +44,7 @@ function App() {
       });
   }, []);
 
-  useEffect(() => {
-    
-  }, [])
+  useEffect(() => {}, []);
 
   return (
     <BrowserRouter>
@@ -92,12 +90,12 @@ function App() {
         <Route
           path="/order"
           element={
-            // <ProtectedRoute
-            //   isAllowed={userDataDoc != null && isOffWaitlist}
-            //   loading={loading}
-            // >
+            <ProtectedRoute
+              isAllowed={userDataDoc != null && isOffWaitlist}
+              loading={loading}
+            >
               <OrderScreen />
-            // </ProtectedRoute>
+            </ProtectedRoute>
           }
         />
         <Route path="*" element={<Navigate to="/" />} />

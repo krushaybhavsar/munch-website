@@ -21,8 +21,8 @@ export const n = () => {};
 //     return null
 // }
 
-export const getRestaurantMenu : RestaurantMenu = () => {
-    
-}
+// export const getRestaurantMenu : RestaurantMenu = () => {
+
+// }
 
 // load restaurant, load menu, prices, options, and redirect to checkout 

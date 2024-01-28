@@ -7,27 +7,72 @@ export type ToastInfo =
   | undefined;
 
 export type ListingInfo = {
-    orderEnd: Date,
-    orderStart: Date,
-    pickupStart: Date,
-    pickupEnd: Date,
-    restaurantId: string
-}
+  orderStart: Date;
+  orderEnd: Date;
+  pickupStart: Date;
+  pickupEnd: Date;
+  pickupLocation: string;
+  restaurantId: string;
+};
 
 export type RestaurantMenuItem = {
     restaurantId: string,
-    stripeId: string,
+    itemId: string,
     name: string,
     basePrice: number,
     options?: MenuOption[]
 }
 
 export type RestaurantMenu = {
-    id: string, 
-    menu: RestaurantMenuItem[]
-}
+  id: string;
+  menu: RestaurantMenuItem[];
+};
+
+export type Order = {
+  orderId: string;
+  order: RestaurantMenuItem[];
+};
 
 export type MenuOption = {
-  name: string, 
-  price: number
-}
+  optionId: string;
+  name: string;
+  price: number;
+};
+
+export const ResidenceHalls = [
+  "Armstrong",
+  "Brown",
+  "Caldwell",
+  "Cloudman",
+  "Folk",
+  "Freeman",
+  "Glenn",
+  "Hanson",
+  "Harrison",
+  "Hopkins",
+  "Howell",
+  "Matheson",
+  "Montag",
+  "Perry",
+  "Smith",
+  "Undergraduate Living Center",
+  "Woodruff",
+  "Field",
+  "Other",
+];
+
+export const ClassStanding = [
+  "Freshman",
+  "Sophomore",
+  "Junior",
+  "Senior",
+  "Graduate",
+];
+
+export type UserData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  classStanding: string;
+  residenceHall: string;
+};
