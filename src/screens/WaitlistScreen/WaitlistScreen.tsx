@@ -84,7 +84,8 @@ const WaitlistScreen = (props: WaitlistScreenProps) => {
   const isValidForm = (): boolean => {
     if (
       email.trim() === "" ||
-      !email.endsWith(CollegeEmailSuffixes.GeorgiaTech)
+      (email !== "orderonmunch@gmail.com" &&
+        !email.endsWith(CollegeEmailSuffixes.GeorgiaTech))
     ) {
       props.setToastMessage({
         message: "Please enter a valid Georgia Tech email address!",
