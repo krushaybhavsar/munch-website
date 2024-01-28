@@ -7,26 +7,28 @@ export type ToastInfo =
   | undefined;
 
 export type ListingInfo = {
-    orderEnd: Date,
-    orderStart: Date,
-    pickupStart: Date,
-    pickupEnd: Date,
-    restaurantId: string
-}
+  orderEnd: Date;
+  orderStart: Date;
+  pickupStart: Date;
+  pickupEnd: Date;
+  restaurantId: string;
+};
 
 export type RestaurantMenuItem = {
-    restaurantId: string
-    name: string,
-    basePrice: number,
-    options: MenuOption[]
-}
+  itemId: string;
+  restaurantId: string;
+  name: string;
+  basePrice: number;
+  options: MenuOption[];
+};
 
 export type RestaurantMenu = {
-    id: string, 
-    menu: RestaurantMenuItem[]
-}
+  id: string;
+  menu: RestaurantMenuItem[];
+};
 
 export type MenuOption = {
-  name: string, 
-  price: number
-}
+  optionId: string;
+  name: string;
+  price: number;
+};
