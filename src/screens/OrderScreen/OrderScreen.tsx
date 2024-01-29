@@ -11,6 +11,8 @@ import CheckoutButton from "../CheckoutButton/CheckoutButton";
 import LogoContainer from "../../components/LogoContainer/LogoContainer";
 import MenuStep from "../../components/MenuStep/MenuStep";
 import CountDownTimer from "../../components/CountDownTimer/CountDownTimer";
+// import { getRestaurantMenu } from "../../utils/firebaseRestaurantUtils";
+import { getListingInfo } from "../../utils/firebaseListingUtils";
 import { getRestaurantMenu } from "../../utils/firebaseRestaurantUtils";
 
 type OrderScreenProps = {};
@@ -418,7 +420,6 @@ const OrderScreen = (props: OrderScreenProps) => {
           </div>
         </div>
         <div className="os-content__menu-steps-container">
-          <button onClick={async () => await getRestaurantMenu("chipotle")}>CLICK ME</button>
           <MenuStep
             stepNumber={1}
             stepDescription="Select a dish"

@@ -4,7 +4,7 @@ import {
   getIndexInQueue,
   getReferralNum,
   logAnalyticsEvent,
-} from "../../utils/firebaseUtils";
+} from "../../utils/firebaseWaitlistDataUtils";
 import { ToastInfo } from "../../types";
 import CustomModal from "../../components/CustomModal/CustomModal";
 import LoadingModalContent from "../../components/CustomModal/LoadingModalContent/LoadingModalContent";

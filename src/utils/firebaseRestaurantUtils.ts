@@ -1,30 +1,17 @@
-import { ListingInfo, RestaurantMenu, RestaurantMenuItem, MenuOption } from "../types";
+import { RestaurantMenu, RestaurantMenuItem, MenuOption } from "../types";
 import {
-    addDoc,
-    arrayUnion,
     collection,
-    doc,
-    getDoc,
     getDocs,
-    query,
-    serverTimestamp,
-    setDoc,
-    updateDoc,
-    where,
-    CollectionReference,
     collectionGroup
-  } from "firebase/firestore";
-  import { analytics, db } from "../firebaseConfig";
-  import { logEvent } from "firebase/analytics";
-  import firebase from 'firebase/app';
-  import 'firebase/firestore';
+} from "firebase/firestore";
+import { db } from "../firebaseConfig";
 
 export const getRestaurantMenu = async (restaurantId : string) : Promise<RestaurantMenu> => {
     const menuCollectionRef = collection(db, `restaurants/${restaurantId}/orderItems`)
     const menuQuery = collectionGroup(db, menuCollectionRef.id);
-    const menu : RestaurantMenu = await getDocs(menuQuery).then((menuItemSnapshot) => {
+    const menu : RestaurantMenu = await getDocs(menuQuery).then((menuItemSnapshots) => {
         var menuItems : RestaurantMenuItem[] = [];
-        menuItemSnapshot.forEach(async (menuItemDoc) => {
+        menuItemSnapshots.forEach(async (menuItemDoc) => {
             // Access the data of each document using menuItemDoc.data()
             const { itemId, itemName, basePrice } = menuItemDoc.data();
 
