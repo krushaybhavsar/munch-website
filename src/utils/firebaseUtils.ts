@@ -142,6 +142,7 @@ export const updateUserPositionByNum = async (
     newQueueIndex = 0;
   }
   const qArray = await getQueue();
+
   if (newQueueIndex >= qArray.length) {
     newQueueIndex = qArray.length - 1;
   }

@@ -11,6 +11,7 @@ import OrderScreen from "./screens/OrderScreen/OrderScreen";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LoadingScreen from "./screens/LoadingScreen/LoadingScreen";
 import { isUserOffWaitlist } from "./utils/firebaseUtils";
+import { getRestaurantMenu } from "./utils/firebaseRestaurantUtils";
 
 function App() {
   const [userDataDoc, setUserDataDoc] = useState<string | null>(null);
@@ -43,8 +44,6 @@ function App() {
         setLoading(false);
       });
   }, []);
-
-  useEffect(() => {}, []);
 
   return (
     <BrowserRouter>
