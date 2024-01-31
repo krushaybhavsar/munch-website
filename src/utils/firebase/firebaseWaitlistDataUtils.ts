@@ -11,7 +11,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { analytics, db } from "../firebaseConfig";
+import { analytics, db } from "../../firebaseConfig";
 import { logEvent } from "firebase/analytics";
 import MobileDetect from "mobile-detect";
 
@@ -41,7 +41,7 @@ export const addEmailToUserData = async (email: string): Promise<string> => {
   const newDoc = await addDoc(
     collection(db, "waitlistData", "queue", "userData"),
     {
-      email: email,
+      email,
       referrals: [],
       timeRegistered: serverTimestamp(),
     }
@@ -105,7 +105,7 @@ export const getReferralNum = async (
       refNum: docSnap.data().referrals.length,
     };
   } else {
-    console.log("No such document: " + docRef?.path);
+    console.log("No such document: " + docRef.path);
     return { userEmail: "", refNum: -1 };
   }
 };
@@ -125,8 +125,8 @@ export const addUserReferral = async (referralUID: string, newUID: string) => {
   const docRef = doc(db, "waitlistData", "queue", "userData", referralUID);
   await updateDoc(docRef, {
     referrals: arrayUnion(newUID),
-  }).then(() => {
-    updateUserPositionByNum(referralUID, 1).then(() => {
+  }).then(async () => {
+    await updateUserPositionByNum(referralUID, 1).then(() => {
       console.log("Moved user up in queue by 1");
     });
   });
@@ -175,7 +175,7 @@ export const isUserOffWaitlist = async (uid: string): Promise<boolean> => {
 
 export const logAnalyticsEvent = async (
   eventName: string,
-  values: { [key: string]: string }
+  values: Record<string, string>
 ) => {
   if (values.message) {
     console.log(
@@ -191,3 +191,17 @@ export const logAnalyticsEvent = async (
     deviceType: mobileDetect.mobile() ? "mobile" : "desktop",
   });
 };
+
+export const moveUsersOffWaitlist = async({numUsers, startIndex} : {numUsers: number, startIndex: number}) => {
+  const queueArray = (await getQueue()).slice(startIndex, startIndex + numUsers);
+
+  const usersOffWaitlistRef = doc(db, "waitlistData", "queue");
+
+  for (let i = startIndex; i < startIndex + numUsers; i++) {
+    updateDoc(usersOffWaitlistRef, {
+      usersOffWaitlist: arrayUnion(queueArray[i])
+    })
+  }
+
+  return true;
+}

@@ -6,7 +6,7 @@ import {
   addUserReferral,
   checkIfValidUID,
   logAnalyticsEvent,
-} from "../../utils/firebaseWaitlistDataUtils";
+} from "../../utils/firebase/firebaseWaitlistDataUtils";
 import { CollegeEmailSuffixes, ToastInfo } from "../../types";
 import CustomModal from "../../components/CustomModal/CustomModal";
 import LoadingModalContent from "../../components/CustomModal/LoadingModalContent/LoadingModalContent";

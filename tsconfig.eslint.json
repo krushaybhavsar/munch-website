@@ -1,0 +1,6 @@
+{
+    "compilerOptions": {
+      "types": ["@types/node"],
+      "noEmit": true
+    }
+  }

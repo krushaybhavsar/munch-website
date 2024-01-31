@@ -1,5 +1,5 @@
-import { ListingInfo } from "../types";
-import { db } from "../firebaseConfig";
+import { ListingInfo } from "../../types";
+import { db } from "../../firebaseConfig";
 import {
     doc,
     collection,

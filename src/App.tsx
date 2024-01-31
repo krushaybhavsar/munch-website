@@ -10,8 +10,7 @@ import { CustomToast } from "./components/CustomToast/CustomToast";
 import OrderScreen from "./screens/OrderScreen/OrderScreen";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LoadingScreen from "./screens/LoadingScreen/LoadingScreen";
-import { isUserOffWaitlist } from "./utils/firebaseWaitlistDataUtils";
-import { getRestaurantMenu } from "./utils/firebaseRestaurantUtils";
+import { isUserOffWaitlist } from "./utils/firebase/firebaseWaitlistDataUtils";
 
 function App() {
   const [userDataDoc, setUserDataDoc] = useState<string | null>(null);

@@ -11,8 +11,9 @@ import CheckoutButton from "../CheckoutButton/CheckoutButton";
 import LogoContainer from "../../components/LogoContainer/LogoContainer";
 import MenuStep from "../../components/MenuStep/MenuStep";
 import CountDownTimer from "../../components/CountDownTimer/CountDownTimer";
+import { moveUsersOffWaitlist } from "../../utils/firebase/firebaseWaitlistDataUtils";
 
-type OrderScreenProps = {};
+interface OrderScreenProps {}
 
 const OrderScreen = (props: OrderScreenProps) => {
   const [menu, setMenu] = useState<RestaurantMenu | undefined>(undefined);
@@ -296,14 +297,6 @@ const OrderScreen = (props: OrderScreenProps) => {
     });
   };
 
-  // const [orderItem, setOrderItem] = 
-  //   useState<RestaurantMenuItem>({
-  //     restaurantId: "",
-  //     stripeId: "price_1OcC15IkLSJI4Hcn0Pv7ejuz",
-  //     name: "",
-  //     basePrice: 0
-  //   });
-
   return (
     <div className="order-screen">
       <div className="order-screen__header">
@@ -528,6 +521,7 @@ const OrderScreen = (props: OrderScreenProps) => {
               </div>
             )}
           </MenuStep>
+          <button onClick={async() => console.log(await moveUsersOffWaitlist({numUsers: 50, startIndex: 0}))}>CLICK ME</button>
         </div>
       </div>
     </div>

@@ -1,10 +1,10 @@
-import { RestaurantMenu, RestaurantMenuItem, MenuOption } from "../types";
+import { RestaurantMenu, RestaurantMenuItem, MenuOption } from "../../types";
 import {
     collection,
     getDocs,
     collectionGroup
 } from "firebase/firestore";
-import { db } from "../firebaseConfig";
+import { db } from "../../firebaseConfig";
 
 export const getRestaurantMenu = async (restaurantId : string) : Promise<RestaurantMenu> => {
     const menuCollectionRef = collection(db, `restaurants/${restaurantId}/orderItems`)
