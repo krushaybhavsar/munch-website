@@ -521,7 +521,6 @@ const OrderScreen = (props: OrderScreenProps) => {
               </div>
             )}
           </MenuStep>
-          <button onClick={async() => console.log(await moveUsersOffWaitlist({numUsers: 50, startIndex: 0}))}>CLICK ME</button>
         </div>
       </div>
     </div>
